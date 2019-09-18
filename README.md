@@ -1,5 +1,3 @@
-# THOTP
-
 <p align="center">
     <a href="https://github.com/piknotech/SFSafeSymbols/releases">
         <img src="https://img.shields.io/badge/version-1.0.0-blue.svg"
