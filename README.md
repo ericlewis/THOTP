@@ -65,7 +65,12 @@ By default, this includes basic concrete types for Password & Generators. If you
 * Implement `PasswordProtocol` with your own concrete type, such as `NSManagedObject`
 * Use [Valet-THOTP](https://github.com/ericlewis/Valet-THOTP), which adds extensions + a new concrete type for easily persisting using [Valet](https://github.com/square/Valet)
 
-* TODO
+### Basic 
+The simplest usage is to parse a URL. `THOTP` is compatible with [Google Authenticator's URI Scheme](https://github.com/google/google-authenticator/wiki/Key-Uri-Format).
+```swift
+let password = try? Password(url: URL(string: "otpauth://totp/test?secret=GEZDGNBV")!)
+print(password) // 123321
+```
 
 ## License
 
