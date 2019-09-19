@@ -1,5 +1,5 @@
 import Foundation
-import URL-QueryItem
+import URL_QueryItem
 
 public extension PasswordProtocol {
     var absoluteURL: URL {
