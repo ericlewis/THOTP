@@ -122,6 +122,16 @@ final class AllTests: XCTestCase {
         XCTAssertNotEqual(password1, password2)
     }
     
+    func test_Counter_All_Attributes_absoluteURL() {
+    
+    let password = Password(name: "test",
+                                 issuer: "ERIC",
+                                 image: "https://www.images.com/image.png",
+                                 generator: try! Generator(type: .counter(1), hash: .sha512, secret: Data("a".utf8), digits: 6))
+                                 
+        XCTAssertEqual(password.absoluteURL.absoluteString, "otpauth://hotp/test")
+    }
+    
     func test_Counter_absoluteURL() {
     
     let password = Password(name: "test",
