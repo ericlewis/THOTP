@@ -39,6 +39,7 @@ Pure Swift implementation of [time-based](https://en.wikipedia.org/wiki/Time-bas
 Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10.15+).
 
 ### Swift Package Manager
+
 The easiest integration is to use the built in package manager tools in Xcode 11.0+. You can also do it manually.
 
 Add the following as a dependency to your Package.swift:
