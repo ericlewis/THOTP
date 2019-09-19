@@ -7,5 +7,6 @@ public enum Key: CodingKey {
     secret, 
     digits, 
     algorithm, 
-    period 
+    period,
+    counter
 }

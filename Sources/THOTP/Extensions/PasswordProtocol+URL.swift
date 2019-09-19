@@ -1,5 +1,6 @@
 import Foundation
 import URL_QueryItem
+import Base32
 
 public extension PasswordProtocol {
     var absoluteURL: URL {
@@ -10,8 +11,17 @@ public extension PasswordProtocol {
         components.path = "/"
         
         var queryItems: [URLQueryItem] = [
-            URLQueryItem(key: Key.secret, value: "")
+            URLQueryItem(key: Key.secret, value: base32Encode(generator.secret)),
+            URLQueryItem(key: Key.algorithm, value: generator.hashAlgorithm.rawValue.uppercased()),
+            URLQueryItem(key: Key.digits, value: String(generator.digits))
         ]
+        
+        switch generator.generatorAlgorithm {
+        case .counter(let counter):
+            queryItems.append(URLQueryItem(key: Key.counter, value: String(counter)))
+        case .timer(let period):
+            queryItems.append(URLQueryItem(key: Key.period, value: String(period)))
+        }
         
         if let issuer = self.issuer {
             components.path += "\(issuer):\(name)"
@@ -24,6 +34,7 @@ public extension PasswordProtocol {
             queryItems.append(URLQueryItem(key: Key.image, value: image.absoluteString))
         }
         
+        components.queryItems = queryItems
         
         return components.url!
     }
