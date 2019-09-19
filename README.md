@@ -52,4 +52,5 @@ swift package update
 ```
 
 ## License
+
 This library is released under the [MIT License](http://opensource.org/licenses/MIT). See [LICENSE.md](https://github.com/ericlewis/THOTP/blob/master/LICENSE.md) for details.
