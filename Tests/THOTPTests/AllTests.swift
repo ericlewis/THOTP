@@ -124,11 +124,11 @@ final class AllTests: XCTestCase {
     
     func test_absoluteURL() {
     
-    let password = Password(name: "t",
+    let password = Password(name: "test",
                                  issuer: nil,
                                  image: nil,
                                  generator: try! Generator(type: .counter(1), hash: .sha512, secret: Data("a".utf8), digits: 6))
                                  
-        XCTAssertEqual(password.absoluteURL.absoluteString, "")
+        XCTAssertEqual(password.absoluteURL.absoluteString, "otpauth://hotp/test")
     }
 }
