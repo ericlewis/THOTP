@@ -51,6 +51,10 @@ After specifying `THOTP` as a dependency of the target in which you want to use 
 swift package update
 ```
 
+## Usage
+
+* TODO
+
 ## License
 
 This library is released under the [MIT License](http://opensource.org/licenses/MIT). See [LICENSE.md](https://github.com/ericlewis/THOTP/blob/master/LICENSE.md) for details.
