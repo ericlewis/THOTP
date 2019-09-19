@@ -129,7 +129,7 @@ final class AllTests: XCTestCase {
                                  image: URL(string: "https://www.images.com/image.png")!,
                                  generator: try! Generator(type: .counter(1), hash: .sha512, secret: Data("a".utf8), digits: 6))
                                  
-        XCTAssertEqual(password.absoluteURL.absoluteString, "otpauth://hotp/test:ERIC")
+        XCTAssertEqual(password.absoluteURL.absoluteString, "otpauth://hotp/ERIC:test")
     }
     
     func test_Counter_absoluteURL() {
