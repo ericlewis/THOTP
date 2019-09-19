@@ -1,10 +1,10 @@
 import Foundation
 
 @available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
-public enum GeneratorAlgorithm: String {
+public enum GeneratorAlgorithm {
     case counter(UInt64), timer(period: TimeInterval)
     
-    var rawValue: String {
+    var stringValue: String {
         switch self {
         case .counter(_):
             return "hotp"

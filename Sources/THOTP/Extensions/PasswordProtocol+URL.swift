@@ -5,7 +5,7 @@ public extension PasswordProtocol {
     var absoluteURL: URL {
         var components = URLComponents()
         components.scheme = "otpauth"
-        components.host = generator.generatorAlgorithm.rawValue
+        components.host = generator.generatorAlgorithm.stringValue
         
         var queryItems: [URLQueryItem] = [
             URLQueryItem(key: Key.secret, value: "")
