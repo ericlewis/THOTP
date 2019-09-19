@@ -4,6 +4,15 @@ import Foundation
 public enum GeneratorAlgorithm {
     case counter(UInt64), timer(period: TimeInterval)
     
+    var stringValue: String {
+        switch self {
+        case .counter(_):
+            return "hotp"
+        case .timer(_):
+            return "totp"
+        }
+    }
+    
     func value(for time: Date) throws -> UInt64 {
         switch self {
         case .counter(let counter):
