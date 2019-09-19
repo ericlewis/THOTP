@@ -36,7 +36,7 @@ Pure Swift implementation of [time-based](https://en.wikipedia.org/wiki/Time-bas
 
 `THOTP` can be installed via Swift Package Manager.
 
-Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10.15+).
+Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10.15+)
 
 ### Swift Package Manager
 
