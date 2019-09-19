@@ -22,6 +22,7 @@
 
 <p align="center">
     <a href="#installation">Installation</a>
+  • <a href="#usage">Usage</a>
   • <a href="#license">License</a>
   • <a href="https://github.com/ericlewis/THOTP/issues">Issues</a>
   • <a href="https://github.com/ericlewis/THOTP/pulls">Pull Requests</a>
