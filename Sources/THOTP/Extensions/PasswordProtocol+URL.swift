@@ -30,8 +30,8 @@ public extension PasswordProtocol {
             components.path += name
         }
         
-        if let image = self.image {
-            queryItems.append(URLQueryItem(key: Key.image, value: image.absoluteString))
+        image.map {
+            queryItems.append(URLQueryItem(key: Key.image, value: $0.absoluteString))
         }
         
         components.queryItems = queryItems
