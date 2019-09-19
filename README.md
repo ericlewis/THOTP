@@ -53,6 +53,11 @@ swift package update
 
 ## Usage
 
+By default, this includes basic concrete types for Password & Generators. If you are interested in persistence, there are a couple of options to choose from:
+
+* Implement `PasswordProtocol` with your own concrete type, such as `NSManagedObject`
+* Use [Valet-THOTP](https://github.com/ericlewis/Valet-THOTP), which adds extensions + a new concrete type for easily persisting using [Valet](https://github.com/square/Valet)
+
 * TODO
 
 ## License
