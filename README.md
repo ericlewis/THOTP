@@ -1,6 +1,9 @@
 <p align="center">
     <a href="https://app.bitrise.io/app/a63b657c1a6f5d86#/builds">
         <img src="https://app.bitrise.io/app/a63b657c1a6f5d86.svg?token=g7-9vCfpqt8mp52OulTckw&branch=master" alt="Build Status">
+    <a href="https://codecov.io/gh/ericlewis/THOTP">
+        <img src="https://codecov.io/gh/ericlewis/THOTP/branch/master/graph/badge.svg" />
+    </a>
     </a>
     <a href="https://github.com/piknotech/SFSafeSymbols/blob/stable/LICENSE.md">
         <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="License: MIT">
