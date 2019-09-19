@@ -13,7 +13,7 @@ public extension PasswordProtocol {
         
         if let issuer = self.issuer {
             components.host = "\(issuer):\(name)"
-            queryItems.append(URLQueryItem(key: Key.name, value: issuer))
+            queryItems.append(URLQueryItem(key: Key.issuer, value: issuer))
         } else {
             components.host = name
         }
