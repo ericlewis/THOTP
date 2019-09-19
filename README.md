@@ -1,4 +1,8 @@
 <p align="center">
+    <a href="#">
+        <img src="https://repository-images.githubusercontent.com/209410933/b4103000-dae0-11e9-9d44-c8a9d88f57b4" alt="THOTP Logo">
+        
+<p align="center">
     <a href="https://app.bitrise.io/app/a63b657c1a6f5d86#/builds">
         <img src="https://app.bitrise.io/app/a63b657c1a6f5d86.svg?token=g7-9vCfpqt8mp52OulTckw&branch=master" alt="Build Status">
     <a href="https://codecov.io/gh/ericlewis/THOTP">
