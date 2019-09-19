@@ -7,4 +7,7 @@ public protocol PasswordProtocol: Equatable {
     var image: URL? {get}
     var generator: GeneratorProtocol {get}
     var currentPassword: String? {get}
+    
+    init(name: String, issuer: String?, image: URL?, generator: GeneratorProtocol)
+    init(url: URL) throws
 }
