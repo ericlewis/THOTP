@@ -12,11 +12,12 @@ let package = Package(
             targets: ["THOTP"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/ericlewis/URL-QueryItem.git", .upToNextMajor(from: "1.0.0"))
     ],
     targets: [
         .target(
             name: "THOTP",
-            dependencies: []),
+            dependencies: ["URL-QueryItem"]),
         .testTarget(
             name: "THOTPTests",
             dependencies: ["THOTP"]),
