@@ -18,9 +18,6 @@
     <a href="https://github.com/apple/swift-package-manager">
         <img src="https://img.shields.io/badge/SwiftPM-✓-brightgreen.svg" alt="SwiftPM: Compatible">
     </a>
-    <a href="https://github.com/apple/swift-package-manager">
-        <img src="https://img.shields.io/badge/Cocoapods-✓-red.svg" alt="Cocoapods: Compatible">
-    </a>
     <a href="#">
     <img src="https://img.shields.io/badge/platforms-iOS%20|%20tvOS%20|%20watchOS%20|%20macOS-purple.svg"
         alt="Platforms: iOS – tvOS – watchOS - macOS">
