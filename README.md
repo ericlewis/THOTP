@@ -3,7 +3,7 @@
         <img src="https://app.bitrise.io/app/a63b657c1a6f5d86.svg?token=g7-9vCfpqt8mp52OulTckw&branch=master" alt="Build Status">
     </a>
     <a href="https://github.com/ericlewis/THOTP/releases">
-        <img src="https://img.shields.io/badge/version-1.0.0-blue.svg"
+        <img src="https://img.shields.io/badge/version-1.0.0-yellow.svg"
         alt="Version: 1.0.0">
     </a>
     <a href="https://github.com/piknotech/SFSafeSymbols/blob/stable/LICENSE.md">
@@ -28,16 +28,18 @@
   • <a href="https://github.com/ericlewis/THOTP/pulls">Pull Requests</a>
 </p>
 
-## TOTP & HOTP generator for iOS, tvOS, watchOS, and macOS
+### TOTP & HOTP generator for iOS, tvOS, watchOS, and macOS
 
 Pure Swift implementation of [time-based](https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm) and [HMAC-based](https://en.wikipedia.org/wiki/HMAC-based_One-time_Password_algorithm) one-time password generators. Heavily inspired by the [OneTimePassword](https://github.com/mattrubin/OneTimePassword) library from [@mattrubin](https://github.com/mattrubin).
 
 ## Installation
+
 `THOTP` can be installed via Swift Package Manager.
 
 Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10.15+).
 
 ### Swift Package Manager
+
 The easiest integration is to use the built in package manager tools in Xcode 11.0+. You can also do it manually.
 
 Add the following as a dependency to your Package.swift:
@@ -50,4 +52,5 @@ swift package update
 ```
 
 ## License
+
 This library is released under the [MIT License](http://opensource.org/licenses/MIT). See [LICENSE.md](https://github.com/ericlewis/THOTP/blob/master/LICENSE.md) for details.
