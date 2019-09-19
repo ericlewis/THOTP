@@ -16,7 +16,10 @@
         <img src="https://img.shields.io/badge/swift-5.1-FFAC45.svg" alt="Swift: 5.1">
     </a>
     <a href="https://github.com/apple/swift-package-manager">
-        <img src="https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg" alt="SwiftPM: Compatible">
+        <img src="https://img.shields.io/badge/SwiftPM-✓-brightgreen.svg" alt="SwiftPM: Compatible">
+    </a>
+    <a href="https://github.com/apple/swift-package-manager">
+        <img src="https://img.shields.io/badge/Cocoapods-✓-red.svg" alt="Cocoapods: Compatible">
     </a>
     <a href="#">
     <img src="https://img.shields.io/badge/Platforms-iOS%20|%20tvOS%20|%20watchOS%20|%20macOS-purple.svg"
