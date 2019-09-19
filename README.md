@@ -22,7 +22,7 @@
         <img src="https://img.shields.io/badge/Cocoapods-✓-red.svg" alt="Cocoapods: Compatible">
     </a>
     <a href="#">
-    <img src="https://img.shields.io/badge/Platforms-iOS%20|%20tvOS%20|%20watchOS%20|%20macOS-purple.svg"
+    <img src="https://img.shields.io/badge/platforms-iOS%20|%20tvOS%20|%20watchOS%20|%20macOS-purple.svg"
         alt="Platforms: iOS – tvOS – watchOS - macOS">
     </a>
 </p>
