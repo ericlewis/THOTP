@@ -138,7 +138,7 @@ final class AllTests: XCTestCase {
     let password = Password(name: "test",
                                  issuer: nil,
                                  image: nil,
-                                 generator: try! Generator(type: .timer(100000000000000), hash: .sha512, secret: Data("a".utf8), digits: 6))
+                                 generator: try! Generator(type: .timer(period: 100000000000000), hash: .sha512, secret: Data("a".utf8), digits: 6))
                                  
         XCTAssertEqual(password.absoluteURL.absoluteString, "otpauth://totp/test")
     }
