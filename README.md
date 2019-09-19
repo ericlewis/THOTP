@@ -3,7 +3,7 @@
         <img src="https://app.bitrise.io/app/a63b657c1a6f5d86.svg?token=g7-9vCfpqt8mp52OulTckw&branch=master" alt="Build Status">
     </a>
     <a href="https://github.com/ericlewis/THOTP/releases">
-        <img src="https://img.shields.io/badge/version-1.0.0-blue.svg"
+        <img src="https://img.shields.io/badge/version-1.0.0-red.svg"
         alt="Version: 1.0.0">
     </a>
     <a href="https://github.com/piknotech/SFSafeSymbols/blob/stable/LICENSE.md">
