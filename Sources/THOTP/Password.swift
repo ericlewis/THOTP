@@ -1,5 +1,6 @@
 import Foundation
 
+/// A object for the metadata surrounding time-based & HMAC-based one-time passwords
 @available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
 public struct Password: PasswordProtocol {
     public var name: String

@@ -1,5 +1,6 @@
 import Foundation
 
+/// Supports counters & timers
 @available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
 public extension GeneratorProtocol {
     static func validateDigits(_ digits: Int) throws {
@@ -8,6 +9,8 @@ public extension GeneratorProtocol {
         }
     }
     
+    /// Counter's aren't validated, but the period but be great than 0
+    /// So we do validate that.
     static func validateGeneratorAlgorithm(_ generatorAlgorithm: GeneratorAlgorithm) throws {
         switch generatorAlgorithm {
         case .counter:
