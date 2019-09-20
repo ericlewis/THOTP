@@ -27,6 +27,7 @@
 <p align="center">
     <a href="#installation">Installation</a>
   • <a href="#usage">Usage</a>
+  • <a href="https://ericlewis.github.io/THOTP/docs/">Documentation</a>
   • <a href="#license">License</a>
   • <a href="https://github.com/ericlewis/THOTP/issues">Issues</a>
   • <a href="https://github.com/ericlewis/THOTP/pulls">Pull Requests</a>
@@ -68,6 +69,10 @@ The simplest usage is to parse a URL. `THOTP` is compatible with [Google Authent
 let password = try? Password(url: URL(string: "otpauth://totp/test?secret=GEZDGNBV")!)
 print(password) // 123321
 ```
+
+## Documentation
+
+Docs are generated with [jazzy](https://github.com/realm/jazzy) & can be found [here](https://ericlewis.github.io/THOTP/docs/). The process is currently manual, so it's possible for documentation to be out of date. Tests are a great way to see how to use this library.
 
 ## License
 
