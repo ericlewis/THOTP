@@ -8,6 +8,9 @@
     <a href="https://codecov.io/gh/ericlewis/THOTP">
         <img src="https://codecov.io/gh/ericlewis/THOTP/branch/master/graph/badge.svg" />
     </a>
+    <a href="https://ericlewis.github.io/THOTP/docs/">
+        <img src="https://ericlewis.github.io/THOTP/docs/badge.svg" />
+    </a>
     </a>
     <a href="https://github.com/piknotech/SFSafeSymbols/blob/stable/LICENSE.md">
         <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="License: MIT">
