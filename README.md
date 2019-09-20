@@ -48,10 +48,13 @@ Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10
 The easiest integration is to use the built in package manager tools in Xcode 11.0+. You can also do it manually.
 
 Add the following as a dependency to your Package.swift:
+
 ```swift
 .package(url: "https://github.com/ericlewis/THOTP.git", .upToNextMajor(from: "1.0.0"))
 ```
+
 After specifying `THOTP` as a dependency of the target in which you want to use it, run:
+
 ```bash
 swift package update
 ```
@@ -60,11 +63,13 @@ swift package update
 
 By default, this includes basic concrete types for Password & Generators. If you are interested in persistence, there are a couple of options to choose from:
 
-* Implement `PasswordProtocol` with your own concrete type, such as `NSManagedObject`
-* Use [Valet-THOTP](https://github.com/ericlewis/Valet-THOTP), which adds extensions + a new concrete type for easily persisting using [Valet](https://github.com/square/Valet)
+- Implement `PasswordProtocol` with your own concrete type, such as `NSManagedObject`
+- Use [Valet-THOTP](https://github.com/ericlewis/Valet-THOTP), which adds extensions + a new concrete type for easily persisting using [Valet](https://github.com/square/Valet)
 
-### Basic 
+### Basic
+
 The simplest usage is to parse a URL. `THOTP` is compatible with [Google Authenticator's URI Scheme](https://github.com/google/google-authenticator/wiki/Key-Uri-Format).
+
 ```swift
 let password = try? Password(url: URL(string: "otpauth://totp/test?secret=GEZDGNBV")!)
 print(password) // 123321
@@ -76,4 +81,4 @@ Docs are generated with [jazzy](https://github.com/realm/jazzy) & can be found [
 
 ## License
 
-This library is released under the [MIT License](http://opensource.org/licenses/MIT). See [LICENSE.md](https://github.com/ericlewis/THOTP/blob/master/LICENSE.md) for details.
+This library is released under the [MIT License](http://opensource.org/licenses/MIT). See [LICENSE](https://github.com/ericlewis/THOTP/blob/master/LICENSE) for details.
