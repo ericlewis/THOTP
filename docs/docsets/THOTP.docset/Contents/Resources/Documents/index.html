@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>THOTP  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="THOTP  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">THOTP Docs</a> (70% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">THOTP Reference</a>
+        <img id="carat" src="img/carat.png" />
+        THOTP  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/Key.html">Key</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Protocols/GeneratorProtocol.html">GeneratorProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Protocols/PasswordProtocol.html">PasswordProtocol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/Generator.html">Generator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Structs/Password.html">Password</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p align="center">
+    <a href="#">
+        <img src="https://repository-images.githubusercontent.com/209410933/b4103000-dae0-11e9-9d44-c8a9d88f57b4" alt="THOTP Logo">
+        
+<p align="center">
+    <a href="https://app.bitrise.io/app/a63b657c1a6f5d86#/builds">
+        <img src="https://app.bitrise.io/app/a63b657c1a6f5d86.svg?token=g7-9vCfpqt8mp52OulTckw&branch=master" alt="Build Status">
+    <a href="https://codecov.io/gh/ericlewis/THOTP">
+        <img src="https://codecov.io/gh/ericlewis/THOTP/branch/master/graph/badge.svg" />
+    </a>
+    </a>
+    <a href="https://github.com/piknotech/SFSafeSymbols/blob/stable/LICENSE.md">
+        <img src="https://img.shields.io/badge/license-MIT-lightgrey.svg" alt="License: MIT">
+    </a>
+    <a href="#">
+        <img src="https://img.shields.io/badge/swift-5.1-FFAC45.svg" alt="Swift: 5.1">
+    </a>
+    <a href="https://github.com/apple/swift-package-manager">
+        <img src="https://img.shields.io/badge/SwiftPM-✓-brightgreen.svg" alt="SwiftPM: Compatible">
+    </a>
+    <a href="#">
+    <img src="https://img.shields.io/badge/platforms-iOS%20|%20tvOS%20|%20watchOS%20|%20macOS-purple.svg"
+        alt="Platforms: iOS – tvOS – watchOS - macOS">
+    </a>
+</p>
+
+<p align="center">
+    <a href="#installation">Installation</a>
+  • <a href="#usage">Usage</a>
+  • <a href="#license">License</a>
+  • <a href="https://github.com/ericlewis/THOTP/issues">Issues</a>
+  • <a href="https://github.com/ericlewis/THOTP/pulls">Pull Requests</a>
+</p>
+<h3 id='totp-amp-hotp-generator-for-ios-tvos-watchos-and-macos' class='heading'>TOTP &amp; HOTP generator for iOS, tvOS, watchOS, and macOS</h3>
+
+<p>Pure Swift implementation of <a href="https://en.wikipedia.org/wiki/Time-based_One-time_Password_algorithm">time-based</a> and <a href="https://en.wikipedia.org/wiki/HMAC-based_One-time_Password_algorithm">HMAC-based</a> one-time password generators. Heavily inspired by the <a href="https://github.com/mattrubin/OneTimePassword">OneTimePassword</a> library from <a href="https://github.com/mattrubin">@mattrubin</a>. Protocol based design, so you won&rsquo;t find any subclasses here.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p><code>THOTP</code> can be installed via Swift Package Manager.</p>
+
+<p>Supported platforms are iOS (13.0+), tvOS (13.0+), watchOS (6.0+), and macOS (10.15+).</p>
+<h3 id='swift-package-manager' class='heading'>Swift Package Manager</h3>
+
+<p>The easiest integration is to use the built in package manager tools in Xcode 11.0+. You can also do it manually.</p>
+
+<p>Add the following as a dependency to your Package.swift:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/ericlewis/THOTP.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">upToNextMajor</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="s">"1.0.0"</span><span class="p">))</span>
+</code></pre>
+
+<p>After specifying <code>THOTP</code> as a dependency of the target in which you want to use it, run:</p>
+<pre class="highlight shell"><code>swift package update
+</code></pre>
+<h2 id='usage' class='heading'>Usage</h2>
+
+<p>By default, this includes basic concrete types for Password &amp; Generators. If you are interested in persistence, there are a couple of options to choose from:</p>
+
+<ul>
+<li>Implement <code><a href="Protocols/PasswordProtocol.html">PasswordProtocol</a></code> with your own concrete type, such as <code>NSManagedObject</code></li>
+<li>Use <a href="https://github.com/ericlewis/Valet-THOTP">Valet-THOTP</a>, which adds extensions + a new concrete type for easily persisting using <a href="https://github.com/square/Valet">Valet</a></li>
+</ul>
+<h3 id='basic' class='heading'>Basic</h3>
+
+<p>The simplest usage is to parse a URL. <code>THOTP</code> is compatible with <a href="https://github.com/google/google-authenticator/wiki/Key-Uri-Format">Google Authenticator&rsquo;s URI Scheme</a>.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">password</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="kt">Password</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"otpauth://totp/test?secret=GEZDGNBV"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">password</span><span class="p">)</span> <span class="c1">// 123321</span>
+</code></pre>
+<h2 id='license' class='heading'>License</h2>
+
+<p>This library is released under the <a href="http://opensource.org/licenses/MIT">MIT License</a>. See <a href="https://github.com/ericlewis/THOTP/blob/master/LICENSE.md">LICENSE.md</a> for details.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/ericlewis/THOTP" target="_blank" rel="external">Eric Lewis</a>. All rights reserved. (Last updated: 2019-09-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

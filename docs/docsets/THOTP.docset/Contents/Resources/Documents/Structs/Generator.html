@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Generator Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/Generator" class="dashAnchor"></a>
+    <a title="Generator Structure Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">THOTP Docs</a> (70% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">THOTP Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Generator Structure Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Key.html">Key</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/GeneratorProtocol.html">GeneratorProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PasswordProtocol.html">PasswordProtocol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Generator.html">Generator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Password.html">Password</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Generator</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)</span>
+<span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Generator</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/GeneratorProtocol.html">GeneratorProtocol</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>A object for generating time-based &amp; HMAC-based one-time passwords</p>
+<h2 id='supported-generators' class='heading'>Supported Generators</h2>
+
+<p>Extending this would require work around making the Generators &amp; Hash functions extensible
+Delta has a good example of this in action.</p>
+
+<ul>
+<li>Time-based</li>
+<li>HMAC-based</li>
+</ul>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP6secret10Foundation4DataVvp"></a>
+                    <a name="//apple_ref/swift/Property/secret" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP6secret10Foundation4DataVvp">secret</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">secret</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP6digitsSivp"></a>
+                    <a name="//apple_ref/swift/Property/digits" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP6digitsSivp">digits</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">digits</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP18generatorAlgorithmAA0bE0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/generatorAlgorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP18generatorAlgorithmAA0bE0Ovp">generatorAlgorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">generatorAlgorithm</span><span class="p">:</span> <span class="kt"><a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP13hashAlgorithmAA013SupportedHashE0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/hashAlgorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP13hashAlgorithmAA013SupportedHashE0Ovp">hashAlgorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hashAlgorithm</span><span class="p">:</span> <span class="kt"><a href="../Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP9GeneratorV4type4hash6secret6digitsAcA0B9AlgorithmO_AA013SupportedHashG0O10Foundation4DataVSitKcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(type:hash:secret:digits:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP9GeneratorV4type4hash6secret6digitsAcA0B9AlgorithmO_AA013SupportedHashG0O10Foundation4DataVSitKcfc">init(type:hash:secret:digits:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a></span><span class="p">,</span> <span class="nv">hash</span><span class="p">:</span> <span class="kt"><a href="../Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a></span><span class="p">,</span> <span class="nv">secret</span><span class="p">:</span> <span class="kt">Data</span><span class="p">,</span> <span class="nv">digits</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/ericlewis/THOTP" target="_blank" rel="external">Eric Lewis</a>. All rights reserved. (Last updated: 2019-09-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

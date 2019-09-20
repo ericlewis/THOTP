@@ -1,0 +1,131 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/GeneratorAlgorithm.swift",
+      "line": 8,
+      "symbol": "GeneratorAlgorithm.counter(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/GeneratorAlgorithm.swift",
+      "line": 8,
+      "symbol": "GeneratorAlgorithm.timer(period:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 7,
+      "symbol": "Key.issuer",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 8,
+      "symbol": "Key.image",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 9,
+      "symbol": "Key.secret",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 10,
+      "symbol": "Key.digits",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 11,
+      "symbol": "Key.algorithm",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 12,
+      "symbol": "Key.period",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/Key.swift",
+      "line": 13,
+      "symbol": "Key.counter",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/SupportedHashAlgorithm.swift",
+      "line": 12,
+      "symbol": "SupportedHashAlgorithm.sha1",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/SupportedHashAlgorithm.swift",
+      "line": 12,
+      "symbol": "SupportedHashAlgorithm.sha256",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Enums/SupportedHashAlgorithm.swift",
+      "line": 12,
+      "symbol": "SupportedHashAlgorithm.sha512",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Extensions/PasswordProtocol+URL.swift",
+      "line": 8,
+      "symbol": "PasswordProtocol.init(url:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Extensions/PasswordProtocol+URL.swift",
+      "line": 66,
+      "symbol": "PasswordProtocol.absoluteURL",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Generator.swift",
+      "line": 17,
+      "symbol": "Generator.init(type:hash:secret:digits:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Password.swift",
+      "line": 11,
+      "symbol": "Password.init(name:issuer:image:generator:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Protocols/PasswordProtocol.swift",
+      "line": 29,
+      "symbol": "PasswordProtocol.init(name:issuer:image:generator:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/ericlewis/Work/THOTP/Sources/THOTP/Protocols/PasswordProtocol.swift",
+      "line": 30,
+      "symbol": "PasswordProtocol.init(url:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/ericlewis/Work/THOTP"
+}

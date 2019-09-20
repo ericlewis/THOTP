@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GeneratorProtocol Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/GeneratorProtocol" class="dashAnchor"></a>
+    <a title="GeneratorProtocol Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">THOTP Docs</a> (70% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">THOTP Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        GeneratorProtocol Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Key.html">Key</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/GeneratorProtocol.html">GeneratorProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/PasswordProtocol.html">PasswordProtocol</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Generator.html">Generator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Password.html">Password</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>GeneratorProtocol</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)</span>
+<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">GeneratorProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>A type that can represent a generator for a given type of one-time password</p>
+
+<p>This object is used for validation as well as storage for the actual algorithm generation data</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP14validateDigitsyySiKFZ"></a>
+                    <a name="//apple_ref/swift/Method/validateDigits(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP14validateDigitsyySiKFZ">validateDigits(_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Validates the number of digits to generate</p>
+
+<p>the suggested number of digits is 6-8, as stated by <a href="https://tools.ietf.org/html/rfc6238">RFC6238</a>.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">validateDigits</span><span class="p">(</span><span class="n">_</span> <span class="nv">digits</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>digits</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The length of the code to be generated</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP08validateB9AlgorithmyyAA0bE0OKFZ"></a>
+                    <a name="//apple_ref/swift/Method/validateGeneratorAlgorithm(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP08validateB9AlgorithmyyAA0bE0OKFZ">validateGeneratorAlgorithm(_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Ensure that the given generation algorithm is valid</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>Counter&rsquo;s aren&rsquo;t validated, but the period but be great than 0
+So we do validate that.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">validateGeneratorAlgorithm</span><span class="p">(</span><span class="n">_</span> <span class="nv">generatorAlgorithm</span><span class="p">:</span> <span class="kt"><a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>generatorAlgorithm</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The generator algorithm to verify</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP12validateTimeyySdKFZ"></a>
+                    <a name="//apple_ref/swift/Method/validateTime(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP12validateTimeyySdKFZ">validateTime(_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Validate that the requested time to generate a token against is not before the <code>UNIX</code> reference time</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">validateTime</span><span class="p">(</span><span class="n">_</span> <span class="nv">timeSinceEpoch</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timeSinceEpoch</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Time since UNIX reference in seconds</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP14validatePeriodyySdKFZ"></a>
+                    <a name="//apple_ref/swift/Method/validatePeriod(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP14validatePeriodyySdKFZ">validatePeriod(_:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Validate often the token should change (should be a positive number)</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">validatePeriod</span><span class="p">(</span><span class="n">_</span> <span class="nv">period</span><span class="p">:</span> <span class="kt">TimeInterval</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>period</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Duration of time in seconds</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP6secret10Foundation4DataVvp"></a>
+                    <a name="//apple_ref/swift/Property/secret" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP6secret10Foundation4DataVvp">secret</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code>Base32</code> shared secret</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">secret</span><span class="p">:</span> <span class="kt">Data</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP6digitsSivp"></a>
+                    <a name="//apple_ref/swift/Property/digits" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP6digitsSivp">digits</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The length of the code to be generated</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">digits</span><span class="p">:</span> <span class="kt">Int</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP18generatorAlgorithmAA0bE0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/generatorAlgorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP18generatorAlgorithmAA0bE0Ovp">generatorAlgorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Generator algorithm being used</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">generatorAlgorithm</span><span class="p">:</span> <span class="kt"><a href="../Enums/GeneratorAlgorithm.html">GeneratorAlgorithm</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP13hashAlgorithmAA013SupportedHashE0Ovp"></a>
+                    <a name="//apple_ref/swift/Property/hashAlgorithm" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP13hashAlgorithmAA013SupportedHashE0Ovp">hashAlgorithm</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hash function being used</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">hashAlgorithm</span><span class="p">:</span> <span class="kt"><a href="../Enums/SupportedHashAlgorithm.html">SupportedHashAlgorithm</a></span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:5THOTP17GeneratorProtocolP8generate4withSS10Foundation4DateV_tKF"></a>
+                    <a name="//apple_ref/swift/Method/generate(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:5THOTP17GeneratorProtocolP8generate4withSS10Foundation4DateV_tKF">generate(with:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a one-time password</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">generate</span><span class="p">(</span><span class="n">with</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>date</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Seed date to generate from, must be in the future</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2019 <a class="link" href="https://github.com/ericlewis/THOTP" target="_blank" rel="external">Eric Lewis</a>. All rights reserved. (Last updated: 2019-09-20)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.11.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
