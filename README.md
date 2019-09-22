@@ -75,7 +75,7 @@ The simplest usage is to parse a URL. `THOTP` is compatible with [Google Authent
 
 ```swift
 let password = try? Password(url: URL(string: "otpauth://totp/test?secret=GEZDGNBV")!)
-print(password) // 123321
+print(password.currentPassword) // 123321
 ```
 
 ## Documentation
