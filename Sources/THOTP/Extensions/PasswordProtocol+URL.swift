@@ -14,9 +14,37 @@ public extension PasswordProtocol {
         }
         
         let splitName = url.path.dropFirst().split(separator: ":")
+                
+        guard IndexSet([1, 2]).contains(splitName.count) else {
+            throw OTPError.invalidURL
+        }
         
-        let name = splitName.last!.trimmingCharacters(in: .whitespacesAndNewlines)
-        let issuer = splitName.count > 1 ? splitName.first!.trimmingCharacters(in: .whitespacesAndNewlines) : nil
+        guard let name = splitName.last?.trimmingCharacters(in: .whitespacesAndNewlines) else {
+            throw OTPError.invalidURL
+        }
+        
+        let issuerSplittedFromName = splitName.count == 2 ? splitName.first?.trimmingCharacters(in: .whitespacesAndNewlines) : nil
+        let issuerFromQueryItems = queryItems[Key.issuer]
+        
+        var issuer: String?
+        
+        /// The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986.
+        /// If the issuer parameter is absent, issuer information may be taken from the issuer prefix of the label.
+        /// If both issuer parameter and issuer label prefix are present, they should be equal.
+        /// Source: https://github.com/google/google-authenticator/wiki/Key-Uri-Format#issuer
+        switch (issuerSplittedFromName, issuerFromQueryItems) {
+        case (.some(let issuerSplittedFromName), .some(let issuerFromQueryItems)):
+            guard issuerSplittedFromName == issuerFromQueryItems else {
+                throw OTPError.invalidURL
+            }
+            issuer = issuerSplittedFromName
+        case (.some(let issuerSplittedFromName), .none):
+            issuer = issuerSplittedFromName
+        case (.none, .some(let issuerFromQueryItems)):
+            issuer = issuerFromQueryItems
+        case (.none, .none):
+            break
+        }
         
         let imageString = queryItems[Key.image]
         let imageURL = imageString != nil ? URL(string: imageString!) : nil

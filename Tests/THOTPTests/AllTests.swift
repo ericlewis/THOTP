@@ -209,6 +209,43 @@ final class AllTests: XCTestCase {
         }
     }
     
+    func test_Counter_URL_Init_MissingIssuer_In_Name() {
+        do {
+            let password = Password(name: "john.doe@email.com",
+                                         issuer: "ACME Co",
+                                         image: nil,
+                                         generator: try! Generator(type: .counter(1), hash: .sha512, secret: "GEZDGNBV".base32DecodedData!, digits: 6))
+            
+            let subject = try Password(url: URL(string: "otpauth://hotp/ACME%20Co:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1")!)
+            XCTAssertEqual(password, subject)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    func test_Counter_URL_Init_MissingIssuer_In_Query() {
+        do {
+            let password = Password(name: "john.doe@email.com",
+                                         issuer: "ACME Co",
+                                         image: nil,
+                                         generator: try! Generator(type: .counter(1), hash: .sha512, secret: "GEZDGNBV".base32DecodedData!, digits: 6))
+            
+            let subject = try Password(url: URL(string: "otpauth://hotp/john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!)
+            XCTAssertEqual(password, subject)
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    func test_Counter_URL_Init_UnequalIssuer() {
+        do {
+            let _ = try Password(url: URL(string: "otpauth://hotp/ACME%20Com:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!)
+            XCTAssert(false)
+        } catch {
+            XCTAssert(true)
+        }
+    }
+    
     func test_Counter_URL_Init_InvalidType() {
         do {
             let _ = try Password(url: URL(string: "otpauth://asdfasdf/john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1")!)
