@@ -39,6 +39,13 @@ public extension GeneratorProtocol {
         truncatedHash &= 0x7fffffff
         truncatedHash = truncatedHash % UInt32(pow(10, Float(digits)))
         
-        return String(truncatedHash).padding(toLength: digits, withPad: "0", startingAt: 0)
+        return String(truncatedHash).leftPadding(toLength: digits, withPad: "0")
+    }
+}
+
+private extension String {
+
+    func leftPadding(toLength: Int, withPad: String) -> String {
+        String(String(reversed()).padding(toLength: toLength, withPad: withPad, startingAt: 0).reversed())
     }
 }
