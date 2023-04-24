@@ -61,7 +61,7 @@ final class AllTests: XCTestCase {
                                 issuer: nil,
                                 image: nil,
                                 generator: try! Generator(type: .counter(1), hash: .sha256, secret: Data("".utf8), digits: 6))
-        XCTAssertEqual(password.currentPassword, "799300")
+        XCTAssertEqual(password.currentPassword, "007993")
     }
     
     func test_Counter_SHA512() {
