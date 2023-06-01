@@ -5,7 +5,7 @@ import Base32
 // MARK: URL Initializer
 
 public extension PasswordProtocol {
-    init(url: URL) throws {
+    init(url: URL, issuerStrategy: IssuerStrategy) throws {
         
         let queryItems = url.queryItems
         
@@ -26,25 +26,7 @@ public extension PasswordProtocol {
         let issuerSplittedFromName = splitName.count == 2 ? splitName.first?.trimmingCharacters(in: .whitespacesAndNewlines) : nil
         let issuerFromQueryItems = queryItems[Key.issuer]
         
-        var issuer: String?
-        
-        /// The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986.
-        /// If the issuer parameter is absent, issuer information may be taken from the issuer prefix of the label.
-        /// If both issuer parameter and issuer label prefix are present, they should be equal.
-        /// Source: https://github.com/google/google-authenticator/wiki/Key-Uri-Format#issuer
-        switch (issuerSplittedFromName, issuerFromQueryItems) {
-        case (.some(let issuerSplittedFromName), .some(let issuerFromQueryItems)):
-            guard issuerSplittedFromName == issuerFromQueryItems else {
-                throw OTPError.invalidURL
-            }
-            issuer = issuerSplittedFromName
-        case (.some(let issuerSplittedFromName), .none):
-            issuer = issuerSplittedFromName
-        case (.none, .some(let issuerFromQueryItems)):
-            issuer = issuerFromQueryItems
-        case (.none, .none):
-            break
-        }
+        let issuer = try issuerStrategy.grabIssuer(issuerSplittedFromName: issuerSplittedFromName, issuerFromQueryItems: issuerFromQueryItems)
         
         let imageString = queryItems[Key.image]
         let imageURL = imageString != nil ? URL(string: imageString!) : nil
@@ -85,6 +67,10 @@ public extension PasswordProtocol {
                                            hash: algorithm,
                                            secret: secret,
                                            digits: digits))
+    }
+    
+    init(url: URL) throws {
+        try self.init(url: url, issuerStrategy: .default)
     }
 }
 

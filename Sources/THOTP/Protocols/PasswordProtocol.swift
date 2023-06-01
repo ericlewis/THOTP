@@ -28,4 +28,5 @@ public protocol PasswordProtocol: Equatable {
     
     init(name: String, issuer: String?, image: URL?, generator: GeneratorProtocol)
     init(url: URL) throws
+    init(url: URL, issuerStrategy: IssuerStrategy) throws
 }

@@ -142,7 +142,6 @@ final class AllTests: XCTestCase {
         XCTAssertEqual(password.absoluteURL, URL(string: "otpauth://hotp/test?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1"))
     }
     
-    
     func test_Timer_absoluteURL() {
     
     let password = Password(name: "test",
@@ -209,7 +208,7 @@ final class AllTests: XCTestCase {
         }
     }
     
-    func test_Counter_URL_Init_MissingIssuer_In_Name() {
+    func test_Counter_URL_Init_MissingIssuer_In_Name_DefaultIssuerStrategy() {
         do {
             let password = Password(name: "john.doe@email.com",
                                          issuer: "ACME Co",
@@ -223,7 +222,7 @@ final class AllTests: XCTestCase {
         }
     }
     
-    func test_Counter_URL_Init_MissingIssuer_In_Query() {
+    func test_Counter_URL_Init_MissingIssuer_In_Query_DefaultIssuerStrategy() {
         do {
             let password = Password(name: "john.doe@email.com",
                                          issuer: "ACME Co",
@@ -237,12 +236,42 @@ final class AllTests: XCTestCase {
         }
     }
     
-    func test_Counter_URL_Init_UnequalIssuer() {
+    func test_Counter_URL_Init_UnequalIssuer_DefaultIssuerStrategy() {
         do {
             let _ = try Password(url: URL(string: "otpauth://hotp/ACME%20Com:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!)
             XCTAssert(false)
         } catch {
             XCTAssert(true)
+        }
+    }
+    
+    func test_Counter_URL_Init_NameFirstIssuerStrategy() {
+        do {
+            let password = try Password(url: URL(string: "otpauth://hotp/ACME%20Com:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!,
+                                        issuerStrategy: .nameFirst)
+            XCTAssertEqual(password.issuer, "ACME Com")
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    func test_Counter_URL_Init_QueryFirstIssuerStrategy() {
+        do {
+            let password = try Password(url: URL(string: "otpauth://hotp/ACME%20Com:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!,
+                                        issuerStrategy: .queryFirst)
+            XCTAssertEqual(password.issuer, "ACME Co")
+        } catch {
+            XCTAssert(false)
+        }
+    }
+    
+    func test_Counter_URL_Init_CustomIssuerStrategy() {
+        do {
+            let password = try Password(url: URL(string: "otpauth://hotp/ACME%20Com:john.doe@email.com?secret=GEZDGNBV&algorithm=SHA512&digits=6&counter=1&issuer=ACME%20Co")!,
+                                        issuerStrategy: .custom { "\($0!) & \($1!)" } )
+            XCTAssertEqual(password.issuer, "ACME Com & ACME Co")
+        } catch {
+            XCTAssert(false)
         }
     }
     
