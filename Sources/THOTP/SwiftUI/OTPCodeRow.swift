@@ -168,20 +168,31 @@ public struct OTPCodeRow: View {
 
     private var textColor: Color {
         let p = min(max(progress, 0), 1)
+        let threshold = 0.3
 
-        // Smoothly interpolate across entire range for imperceptible transition
-        // Use quartic curve for extremely gradual saturation buildup
-        let intensityCurve = (1 - p) * (1 - p) * (1 - p) * (1 - p) // Quartic for very smooth ramp
+        // Keep fully readable above threshold
+        if p > threshold {
+            return .primary
+        }
 
-        // Hue goes from green-ish (when p=1) to red (when p=0)
-        let hue = 0.15 * p
+        // Below threshold, smoothly transition from dark to bright red
+        // Normalize within visible range
+        let normalized = 1 - (p / threshold)
 
-        // Saturation starts near zero and gradually increases
-        // At 100%: sat ≈ 0%, at 50%: sat ≈ 6%, at 30%: sat ≈ 19%, at 0%: sat = 60%
-        let saturation = intensityCurve * 0.6
+        // Use cubic curve for smooth ramp
+        let curve = normalized * normalized * normalized
 
-        // Keep brightness high to prevent dark colors
-        return Color(hue: hue, saturation: saturation, brightness: 0.95)
+        // Hue: stay near red (0.0)
+        let hue = 0.0
+
+        // Saturation: gradually increase from low to high
+        let saturation = 0.5 + (curve * 0.4) // 50% → 90%
+
+        // Brightness: start dark, get brighter
+        // This is key for readability - we go from dark red to bright red
+        let brightness = 0.3 + (curve * 0.65) // 30% → 95%
+
+        return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
 
     private func updatePassword() {
