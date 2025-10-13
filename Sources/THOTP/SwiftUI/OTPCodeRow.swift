@@ -38,8 +38,8 @@ public struct OTPCodeRow: View {
                             .foregroundStyle(textColor)
                             .opacity(flashOpacity)
                             .scaleEffect(scaleEffect)
-                            .shadow(color: glowColor.opacity(glowIntensity * 0.95), radius: 30 - (glowIntensity * 25))
-                            .shadow(color: glowColor.opacity(glowIntensity * 0.7), radius: 50 - (glowIntensity * 40))
+                            .shadow(color: glowColor.opacity(glowIntensity * 0.35), radius: 30 - (glowIntensity * 25))
+                            .shadow(color: glowColor.opacity(glowIntensity * 0.2), radius: 50 - (glowIntensity * 40))
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)

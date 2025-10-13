@@ -361,8 +361,8 @@ struct PasswordRowView: View {
                     .foregroundStyle(textColor)
                     .opacity(flashOpacity)
                     .scaleEffect(scaleEffect)
-                    .shadow(color: glowColor.opacity(glowIntensity * 0.95), radius: settings.glowMaxRadius - (glowIntensity * (settings.glowMaxRadius - settings.glowMinRadius)))
-                    .shadow(color: glowColor.opacity(glowIntensity * 0.7), radius: (settings.glowMaxRadius * 1.67) - (glowIntensity * (settings.glowMaxRadius * 1.67 - settings.glowMinRadius * 2)))
+                    .shadow(color: glowColor.opacity(glowIntensity * 0.35), radius: settings.glowMaxRadius - (glowIntensity * (settings.glowMaxRadius - settings.glowMinRadius)))
+                    .shadow(color: glowColor.opacity(glowIntensity * 0.2), radius: (settings.glowMaxRadius * 1.67) - (glowIntensity * (settings.glowMaxRadius * 1.67 - settings.glowMinRadius * 2)))
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
