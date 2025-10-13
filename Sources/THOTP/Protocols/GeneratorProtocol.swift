@@ -3,7 +3,7 @@ import Foundation
 /// A type that can represent a generator for a given type of one-time password
 ///
 /// This object is used for validation as well as storage for the actual algorithm generation data
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
 public protocol GeneratorProtocol: Sendable {
 
     /// Validates the number of digits to generate

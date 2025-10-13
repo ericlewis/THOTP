@@ -2,7 +2,7 @@ import Foundation
 
 /// The strategy gives the freedom to decide how the `issuer` value will be grabbed from the URL.
 /// `Default` is recommended and the other options enable the API to cover all use cases by including `custom` option.
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
 public enum IssuerStrategy: Sendable {
 
     case `default`

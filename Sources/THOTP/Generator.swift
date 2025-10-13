@@ -5,7 +5,7 @@ import Foundation
 /// ## Supported Generators
 /// - Time-based (TOTP)
 /// - HMAC-based (HOTP)
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
 public struct Generator: GeneratorProtocol, Sendable {
     /// Default number of digits in generated passwords (RFC 6238 recommendation)
     public static let defaultDigits: Int = 6

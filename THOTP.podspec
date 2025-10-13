@@ -11,12 +11,12 @@ Pod::Spec.new do |spec|
 
   spec.static_framework = true
 
-  spec.ios.deployment_target = '16.0'
-  spec.tvos.deployment_target = '16.0'
-  spec.watchos.deployment_target = '9.0'
-  spec.macos.deployment_target = '13.0'
+  spec.ios.deployment_target = '18.0'
+  spec.tvos.deployment_target = '18.0'
+  spec.watchos.deployment_target = '11.0'
+  spec.macos.deployment_target = '15.0'
 
-  spec.swift_version = '6.0'
+  spec.swift_version = '6.2'
 
   spec.source = { :git => "https://github.com/ericlewis/THOTP.git", :tag => "#{spec.version}" }
   spec.source_files = 'Sources/**/*'

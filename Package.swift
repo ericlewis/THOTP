@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "THOTP",
-    platforms: [.iOS(.v16), .tvOS(.v16), .macOS(.v13), .watchOS(.v9)],
+    platforms: [.iOS(.v18), .tvOS(.v18), .macOS(.v15), .watchOS(.v11)],
     products: [
         .library(
             name: "THOTP",

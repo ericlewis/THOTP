@@ -3,7 +3,7 @@ import Foundation
 /// The available generator algorithms used for password generation
 ///
 /// Most use a variation of the counter approach
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
 public enum GeneratorAlgorithm: Sendable, BitwiseCopyable {
     case counter(UInt64)
     case timer(period: TimeInterval)
