@@ -277,26 +277,22 @@ struct PasswordRowView: View {
         // Start scaling earlier (when less than 40% time remains) for gradual buildup
         guard p < 0.4 else { return 1.0 }
 
-        // Calculate intensity based on progress (0.0 = subtle, 1.0 = intense)
+        // Calculate intensity based on how much total time has elapsed (0.0 = subtle, 1.0 = intense)
         let intensity = 1.0 - (p / 0.4)
 
-        // Base scale grows as progress decreases (directly tied to progress)
-        // Uses exponential curve for more dramatic buildup
-        let baseScale = 1.0 + (0.05 * intensity * intensity)
+        // Get the elapsed time within the current period (0.0 = start of period, 1.0 = end of period)
+        guard case .timer(let period) = password.generator.generatorAlgorithm else { return 1.0 }
+        let elapsedInPeriod = 1.0 - (timeRemaining / period)
 
-        // Pulse frequency increases as time runs out (starts slower, gets faster)
-        let frequency = 0.3 + (1.7 * intensity)
+        // Base scale grows as overall progress decreases (tied to total progress)
+        let baseScale = 1.0 + (0.03 * intensity * intensity)
 
-        // Phase based on sub-second timing
-        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
+        // Breathing effect tied to position in current period
+        // Scale grows as we progress through each period, creating breathing tied to countdown
+        let breathingAmplitude = 0.02 + (0.04 * intensity * intensity)
+        let breathing = breathingAmplitude * elapsedInPeriod
 
-        // Pulse amplitude increases with intensity (oscillation on top of base scale)
-        let pulseAmplitude = 0.01 + (0.04 * intensity * intensity)
-
-        // Calculate pulse (oscillates around base scale)
-        let pulse = pulseAmplitude * sin(phase)
-
-        return baseScale + pulse
+        return baseScale + breathing
     }
 }
 
