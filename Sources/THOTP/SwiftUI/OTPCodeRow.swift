@@ -1,10 +1,5 @@
 import SwiftUI
 
-struct UrgencyAnimationValues {
-    var flashOpacity = 1.0
-    var pulseScale = 1.0
-}
-
 /// A SwiftUI view that displays an OTP password with animated countdown for TOTP.
 ///
 /// This view shows the issuer name, account name, current OTP code, and for timer-based
@@ -36,38 +31,15 @@ public struct OTPCodeRow: View {
                 Spacer()
 
                 if isTimerBased {
-                    let urgency = urgencyIntensity
-                    let glow = glowIntensity
-
                     VStack(alignment: .trailing, spacing: 4) {
                         Text(currentCode)
                             .font(.system(.title2, design: .monospaced).weight(.medium))
                             .monospacedDigit()
                             .foregroundStyle(isRedZone ? .red : .primary)
-                            .keyframeAnimator(
-                                initialValue: UrgencyAnimationValues(),
-                                repeating: true
-                            ) { content, value in
-                                let effectiveFlash = 1.0 - ((1.0 - value.flashOpacity) * urgency)
-                                let effectivePulse = 1.0 + ((value.pulseScale - 1.0) * urgency)
-
-                                content
-                                    .opacity(effectiveFlash)
-                                    .scaleEffect(effectivePulse)
-                            } keyframes: { _ in
-                                KeyframeTrack(\.flashOpacity) {
-                                    CubicKeyframe(0.55, duration: 0.1)
-                                    CubicKeyframe(1.0, duration: 0.1)
-                                }
-
-                                KeyframeTrack(\.pulseScale) {
-                                    CubicKeyframe(1.15, duration: 0.1)
-                                    CubicKeyframe(1.0, duration: 0.1)
-                                }
-                            }
-                            .shadow(color: .red.opacity(glow * 0.8), radius: 8 + (glow * 8))
-                            .shadow(color: .red.opacity(glow * 0.5), radius: 16 + (glow * 16))
-                            .animation(.easeInOut(duration: 0.2), value: glow)
+                            .opacity(flashOpacity)
+                            .scaleEffect(scaleEffect)
+                            .shadow(color: .red.opacity(glowIntensity * 0.8), radius: 8 + (glowIntensity * 8))
+                            .shadow(color: .red.opacity(glowIntensity * 0.5), radius: 16 + (glowIntensity * 16))
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)
@@ -116,19 +88,58 @@ public struct OTPCodeRow: View {
         return progress < 0.2
     }
 
-    private var urgencyIntensity: Double {
-        guard isTimerBased else { return 0.0 }
+    private var flashOpacity: Double {
+        guard isTimerBased else { return 1.0 }
 
         let p = min(max(progress, 0), 1)
 
-        // Urgency starts at 20% progress remaining
-        guard p < 0.2 else { return 0.0 }
+        // Start flashing when less than 20% time remains
+        guard p < 0.2 else { return 1.0 }
 
         // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
-        let normalizedIntensity = 1.0 - (p / 0.2)
+        let intensity = 1.0 - (p / 0.2)
 
-        // Use cubic curve for dramatic buildup
-        return normalizedIntensity * normalizedIntensity * normalizedIntensity
+        // Flash frequency increases dramatically (1-5 Hz)
+        let frequency = 1.0 + (4.0 * intensity)
+
+        // Phase based on timeRemaining for continuous frequency changes
+        let phase = timeRemaining * frequency * 2 * .pi
+
+        // Amplitude increases with intensity (15%-45%)
+        let amplitude = 0.15 + (0.30 * intensity)
+
+        // Calculate opacity pulse using sine wave
+        let pulse = amplitude * (0.5 - 0.5 * sin(phase))
+
+        return 1.0 - pulse
+    }
+
+    private var scaleEffect: CGFloat {
+        guard isTimerBased else { return 1.0 }
+
+        let p = min(max(progress, 0), 1)
+
+        // Start scaling when less than 20% time remains
+        guard p < 0.2 else { return 1.0 }
+
+        // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
+        let intensity = 1.0 - (p / 0.2)
+
+        // Use cubic curve for very dramatic base scale growth
+        let exponentialIntensity = intensity * intensity * intensity
+
+        // Base scale grows dramatically
+        let baseScale = 1.0 + (0.08 * exponentialIntensity)
+
+        // Pulsing effect that gets much faster (2-8 Hz)
+        let pulseFrequency = 2.0 + (6.0 * intensity)
+        let phase = timeRemaining * pulseFrequency * 2 * .pi
+
+        // Pulse amplitude increases dramatically
+        let pulseAmplitude = 0.03 + (0.12 * exponentialIntensity)
+        let pulse = pulseAmplitude * (0.5 + 0.5 * sin(phase))
+
+        return baseScale + pulse
     }
 
     private var glowIntensity: Double {
