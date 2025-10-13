@@ -339,7 +339,9 @@ struct ContentView: View {
 struct PasswordRowView: View {
     let password: Password
     let settings: UrgencySettings
-    
+    @State private var showCopiedToast = false
+    @State private var isTapped = false
+
     var body: some View {
         TimelineView(.animation) { _ in
             rowContent(
@@ -349,6 +351,16 @@ struct PasswordRowView: View {
             )
         }
         .padding(.vertical, 8)
+        .overlay(alignment: .top) {
+            if showCopiedToast {
+                Text("Copied to clipboard")
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .glassEffect()
+                    .glassEffectTransition(.materialize)
+            }
+        }
     }
     
     @ViewBuilder
@@ -360,23 +372,29 @@ struct PasswordRowView: View {
         let glowColor = calculateGlowColor(progress: progress)
         let textColor = calculateTextColor(progress: progress)
         
+        LabeledContent {
+            Text(currentCode)
+                .font(.system(.title2, design: .monospaced).bold())
+                .monospacedDigit()
+                .foregroundStyle(textColor)
+                .opacity(flashOpacity)
+                .scaleEffect(scaleEffect * (isTapped ? 0.95 : 1.0))
+                .shadow(color: glowColor.opacity(glowIntensity * 0.35), radius: settings.glowMaxRadius - (glowIntensity * (settings.glowMaxRadius - settings.glowMinRadius)))
+                .shadow(color: glowColor.opacity(glowIntensity * 0.2), radius: (settings.glowMaxRadius * 1.67) - (glowIntensity * (settings.glowMaxRadius * 1.67 - settings.glowMinRadius * 2)))
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    copyToClipboard(currentCode)
+                }
+        } label: {
+            Text(password.issuer ?? "Unknown")
+                .font(.headline)
+            Text(password.name)
+        }
         Gauge(value: progress) {
-            LabeledContent {
-                Text(currentCode)
-                    .font(.system(.title2, design: .monospaced).bold())
-                    .monospacedDigit()
-                    .foregroundStyle(textColor)
-                    .opacity(flashOpacity)
-                    .scaleEffect(scaleEffect)
-                    .shadow(color: glowColor.opacity(glowIntensity * 0.35), radius: settings.glowMaxRadius - (glowIntensity * (settings.glowMaxRadius - settings.glowMinRadius)))
-                    .shadow(color: glowColor.opacity(glowIntensity * 0.2), radius: (settings.glowMaxRadius * 1.67) - (glowIntensity * (settings.glowMaxRadius * 1.67 - settings.glowMinRadius * 2)))
-            } label: {
-                Text(password.issuer ?? "Unknown")
-                    .font(.headline)
-                Text(password.name)
-            }
+            
         }
         .tint(color)
+        .glassEffect()
     }
     
     private var isTimerBased: Bool {
@@ -385,7 +403,34 @@ struct PasswordRowView: View {
         }
         return false
     }
-    
+
+    private func copyToClipboard(_ code: String) {
+        UIPasteboard.general.string = code
+
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            isTapped = true
+        }
+
+        withAnimation(.easeIn(duration: 0.3)) {
+            showCopiedToast = true
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                isTapped = false
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeOut(duration: 0.3)) {
+                showCopiedToast = false
+            }
+        }
+    }
+
     private func progressColor(progress: Double, timeRemaining: TimeInterval) -> Color {
         let p = min(max(progress, 0), 1)
         let hue = 0.33 * p
@@ -508,4 +553,9 @@ struct PasswordRowView: View {
 
 #Preview {
     ContentView()
+}
+
+#Preview {
+    ContentView()
+        .colorScheme(.dark)
 }

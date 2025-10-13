@@ -10,6 +10,8 @@ public struct OTPCodeRow: View {
     @State private var currentCode: String = "------"
     @State private var timeRemaining: TimeInterval = 0
     @State private var progress: Double = 0
+    @State private var showCopiedToast = false
+    @State private var isTapped = false
 
     private let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
@@ -37,9 +39,13 @@ public struct OTPCodeRow: View {
                             .monospacedDigit()
                             .foregroundStyle(textColor)
                             .opacity(flashOpacity)
-                            .scaleEffect(scaleEffect)
+                            .scaleEffect(scaleEffect * (isTapped ? 0.95 : 1.0))
                             .shadow(color: glowColor.opacity(glowIntensity * 0.35), radius: 30 - (glowIntensity * 25))
                             .shadow(color: glowColor.opacity(glowIntensity * 0.2), radius: 50 - (glowIntensity * 40))
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                copyToClipboard(currentCode)
+                            }
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)
@@ -49,6 +55,11 @@ public struct OTPCodeRow: View {
                     Text(currentCode)
                         .font(.system(.title2, design: .monospaced))
                         .fontWeight(.medium)
+                        .scaleEffect(isTapped ? 0.95 : 1.0)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            copyToClipboard(currentCode)
+                        }
                 }
             }
 
@@ -65,6 +76,17 @@ public struct OTPCodeRow: View {
         .onAppear {
             updatePassword()
         }
+        .overlay(alignment: .top) {
+            if showCopiedToast {
+                Text("Copied to clipboard")
+                    .font(.caption)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(.thinMaterial, in: Capsule())
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                    .offset(y: -8)
+            }
+        }
     }
 
     private var isTimerBased: Bool {
@@ -72,6 +94,38 @@ public struct OTPCodeRow: View {
             return true
         }
         return false
+    }
+
+    private func copyToClipboard(_ code: String) {
+        #if os(iOS)
+        UIPasteboard.general.string = code
+
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+        #elseif os(macOS)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(code, forType: .string)
+        #endif
+
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+            isTapped = true
+        }
+
+        withAnimation(.easeIn(duration: 0.3)) {
+            showCopiedToast = true
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                isTapped = false
+            }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeOut(duration: 0.3)) {
+                showCopiedToast = false
+            }
+        }
     }
 
     private var progressColor: Color {
