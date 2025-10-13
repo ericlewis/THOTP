@@ -169,19 +169,16 @@ public struct OTPCodeRow: View {
     private var textColor: Color {
         let p = min(max(progress, 0), 1)
 
-        // Keep text primary color above 30%, then interpolate to red below
-        guard p < 0.3 else { return .primary }
+        // Smoothly interpolate across entire range for imperceptible transition
+        // Use quartic curve for extremely gradual saturation buildup
+        let intensityCurve = (1 - p) * (1 - p) * (1 - p) * (1 - p) // Quartic for very smooth ramp
 
-        // Interpolate from yellow-green to red within 30% → 0% range
-        // At 30% progress → yellow-green (hue 0.15)
-        // At 0% progress → red (hue 0.0)
-        let normalized = p / 0.3 // Maps 0.3→1.0, 0.0→0.0
-        let hue = 0.15 * normalized
+        // Hue goes from green-ish (when p=1) to red (when p=0)
+        let hue = 0.15 * p
 
-        // Start with very low saturation (nearly grayscale) and gradually increase
-        // This creates a smooth transition from primary appearance
-        let intensityCurve = (1 - normalized) * (1 - normalized) // Quadratic for smooth ramp
-        let saturation = intensityCurve * 0.8
+        // Saturation starts near zero and gradually increases
+        // At 100%: sat ≈ 0%, at 50%: sat ≈ 6%, at 30%: sat ≈ 19%, at 0%: sat = 60%
+        let saturation = intensityCurve * 0.6
 
         // Keep brightness high to prevent dark colors
         return Color(hue: hue, saturation: saturation, brightness: 0.95)

@@ -473,17 +473,16 @@ struct PasswordRowView: View {
     private func calculateTextColor(progress: Double) -> Color {
         let p = min(max(progress, 0), 1)
 
-        // Start interpolation at threshold, but keep very subtle initially
-        guard p < settings.textColorStartProgress else { return .primary }
+        // Smoothly interpolate across entire range for imperceptible transition
+        // Use cubic curve for extremely gradual saturation buildup
+        let intensityCurve = (1 - p) * (1 - p) * (1 - p) * (1 - p) // Quartic for very smooth ramp
 
-        // Interpolate from yellow-green to red within threshold → 0% range
-        let normalized = p / settings.textColorStartProgress
-        let hue = 0.15 * normalized
+        // Hue goes from green-ish (when p=1) to red (when p=0)
+        let hue = 0.15 * p
 
-        // Start with very low saturation (nearly grayscale) and gradually increase
-        // This creates a smooth transition from primary appearance
-        let intensityCurve = (1 - normalized) * (1 - normalized) // Quadratic for smooth ramp
-        let saturation = intensityCurve * 0.8
+        // Saturation starts near zero and gradually increases
+        // At 100%: sat ≈ 0%, at 50%: sat ≈ 6%, at 30%: sat ≈ 19%, at 0%: sat = 60%
+        let saturation = intensityCurve * 0.6
 
         // Keep brightness high to prevent dark colors
         return Color(hue: hue, saturation: saturation, brightness: 0.95)
