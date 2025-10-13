@@ -1,17 +1,17 @@
 import Foundation
 
 /// Supports counters & timers
-@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
 public extension GeneratorProtocol {
-    static func validateDigits(_ digits: Int) throws {
+    static func validateDigits(_ digits: Int) throws(OTPError) {
         guard (6...8).contains(digits) else {
             throw OTPError.invalidDigits
         }
     }
-    
-    /// Counter's aren't validated, but the period but be great than 0
+
+    /// Counter's aren't validated, but the period must be greater than 0
     /// So we do validate that.
-    static func validateGeneratorAlgorithm(_ generatorAlgorithm: GeneratorAlgorithm) throws {
+    static func validateGeneratorAlgorithm(_ generatorAlgorithm: GeneratorAlgorithm) throws(OTPError) {
         switch generatorAlgorithm {
         case .counter:
             return
@@ -19,14 +19,14 @@ public extension GeneratorProtocol {
             try validatePeriod(period)
         }
     }
-    
-    static func validatePeriod(_ period: TimeInterval) throws {
+
+    static func validatePeriod(_ period: TimeInterval) throws(OTPError) {
         guard period > 0 else {
             throw OTPError.invalidPeriod
         }
     }
-    
-    static func validateTime(_ timeSinceEpoch: TimeInterval) throws {
+
+    static func validateTime(_ timeSinceEpoch: TimeInterval) throws(OTPError) {
         guard timeSinceEpoch >= 0 else {
             throw OTPError.invalidTime
         }

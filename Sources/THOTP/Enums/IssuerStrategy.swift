@@ -2,15 +2,15 @@ import Foundation
 
 /// The strategy gives the freedom to decide how the `issuer` value will be grabbed from the URL.
 /// `Default` is recommended and the other options enable the API to cover all use cases by including `custom` option.
-@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
-public enum IssuerStrategy {
-    
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
+public enum IssuerStrategy: Sendable {
+
     case `default`
     case nameFirst
     case queryFirst
-    case custom((_ issuerSplittedFromName: String?, _ issuerFromQueryItems: String?) throws -> String?)
-    
-    public func grabIssuer(issuerSplittedFromName: String?, issuerFromQueryItems: String?) throws -> String? {
+    case custom(@Sendable (_ issuerSplittedFromName: String?, _ issuerFromQueryItems: String?) throws(OTPError) -> String?)
+
+    public func grabIssuer(issuerSplittedFromName: String?, issuerFromQueryItems: String?) throws(OTPError) -> String? {
         switch self {
         case .default:
             /// The issuer parameter is a string value indicating the provider or service this account is associated with, URL-encoded according to RFC 3986.

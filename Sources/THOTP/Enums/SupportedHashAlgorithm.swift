@@ -4,15 +4,15 @@ import CryptoKit
 ///
 /// ## Supported Hashes
 /// These are officially support by google.
-/// - **SHA1 (Default)**
-/// - SHA256
+/// - **SHA1 (Default)** - Note: SHA1 is cryptographically weak but required for TOTP compatibility
+/// - SHA256 (Recommended)
 /// - SHA512
-@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
-public enum SupportedHashAlgorithm: String {
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
+public enum SupportedHashAlgorithm: String, Sendable, BitwiseCopyable {
     case sha1, sha256, sha512
-    
+
     /// The number of bytes in the given hash function's digest.
-    var length: Int {
+    public var length: Int {
         switch self {
         case .sha1:
             return Insecure.SHA1.byteCount
