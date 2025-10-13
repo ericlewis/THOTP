@@ -192,6 +192,7 @@ struct PasswordRowView: View {
         let flashOpacity = calculateFlashOpacity(progress: progress, timeRemaining: timeRemaining)
         let scaleEffect = calculateScaleEffect(progress: progress, timeRemaining: timeRemaining)
         let glowIntensity = calculateGlowIntensity(progress: progress)
+        let glowColor = calculateGlowColor(progress: progress)
         let isRedZone = progress < 0.2
 
         Gauge(value: progress) {
@@ -202,8 +203,8 @@ struct PasswordRowView: View {
                     .foregroundStyle(isRedZone ? .red : .primary)
                     .opacity(flashOpacity)
                     .scaleEffect(scaleEffect)
-                    .shadow(color: .red.opacity(glowIntensity * 0.95), radius: 20 - (glowIntensity * 15))
-                    .shadow(color: .red.opacity(glowIntensity * 0.7), radius: 40 - (glowIntensity * 30))
+                    .shadow(color: glowColor.opacity(glowIntensity * 0.95), radius: 30 - (glowIntensity * 25))
+                    .shadow(color: glowColor.opacity(glowIntensity * 0.7), radius: 50 - (glowIntensity * 40))
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
@@ -288,14 +289,26 @@ struct PasswordRowView: View {
     private func calculateGlowIntensity(progress: Double) -> Double {
         let p = min(max(progress, 0), 1)
 
-        // Glow starts at 20% and increases to max at 0%
-        guard p < 0.2 else { return 0.0 }
+        // Glow starts at 50% and increases to max at 0%
+        guard p < 0.5 else { return 0.0 }
 
-        // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
-        let intensity = 1.0 - (p / 0.2)
+        // Calculate intensity (0.0 = 50% left, 1.0 = 0% left)
+        let intensity = 1.0 - (p / 0.5)
 
         // Use quadratic curve for smooth buildup
         return intensity * intensity
+    }
+
+    private func calculateGlowColor(progress: Double) -> Color {
+        let p = min(max(progress, 0), 1)
+
+        // Interpolate from green (0.33) to red (0.0) based on progress
+        let hue = 0.33 * p
+
+        // Increase saturation as urgency increases
+        let saturation = 0.7 + 0.3 * (1 - p)
+
+        return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
 }
 
