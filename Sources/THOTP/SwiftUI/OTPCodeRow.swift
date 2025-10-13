@@ -158,11 +158,14 @@ public struct OTPCodeRow: View {
     private var glowColor: Color {
         let p = min(max(progress, 0), 1)
 
-        // Interpolate from green (0.33) to red (0.0) based on progress
-        let hue = 0.33 * p
+        // Glow is visible from 50% to 0%, so interpolate within that range
+        // At 50% progress → green (hue 0.33)
+        // At 0% progress → red (hue 0.0)
+        let normalized = p / 0.5 // Maps 0.5→1.0, 0.0→0.0
+        let hue = 0.33 * normalized
 
         // Increase saturation as urgency increases
-        let saturation = 0.7 + 0.3 * (1 - p)
+        let saturation = 0.7 + 0.3 * (1 - normalized)
 
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
