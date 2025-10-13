@@ -38,8 +38,8 @@ public struct OTPCodeRow: View {
                             .foregroundStyle(isRedZone ? .red : .primary)
                             .opacity(flashOpacity)
                             .scaleEffect(scaleEffect)
-                            .shadow(color: .red.opacity(glowIntensity * 0.8), radius: 8 + (glowIntensity * 8))
-                            .shadow(color: .red.opacity(glowIntensity * 0.5), radius: 16 + (glowIntensity * 16))
+                            .shadow(color: .red.opacity(glowIntensity * 0.9), radius: 10 + (glowIntensity * 15))
+                            .shadow(color: .red.opacity(glowIntensity * 0.6), radius: 20 + (glowIntensity * 30))
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)
@@ -99,14 +99,14 @@ public struct OTPCodeRow: View {
         // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
         let intensity = 1.0 - (p / 0.2)
 
-        // Flash frequency increases (1-3 Hz)
-        let frequency = 1.0 + (2.0 * intensity)
+        // Flash frequency increases subtly (1-2 Hz)
+        let frequency = 1.0 + (1.0 * intensity)
 
         // Phase based on timeRemaining for continuous frequency changes
         let phase = timeRemaining * frequency * 2 * .pi
 
-        // Amplitude increases with intensity (15%-30%)
-        let amplitude = 0.15 + (0.15 * intensity)
+        // Amplitude increases with intensity (10%-20%)
+        let amplitude = 0.10 + (0.10 * intensity)
 
         // Calculate opacity pulse using sine wave
         let pulse = amplitude * (0.5 - 0.5 * sin(phase))
@@ -125,18 +125,18 @@ public struct OTPCodeRow: View {
         // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
         let intensity = 1.0 - (p / 0.2)
 
-        // Use cubic curve for dramatic base scale growth
+        // Use cubic curve for base scale growth
         let exponentialIntensity = intensity * intensity * intensity
 
-        // Base scale grows moderately
-        let baseScale = 1.0 + (0.05 * exponentialIntensity)
+        // Base scale grows subtly
+        let baseScale = 1.0 + (0.03 * exponentialIntensity)
 
-        // Pulsing effect that gets faster (2-5 Hz)
-        let pulseFrequency = 2.0 + (3.0 * intensity)
+        // Pulsing effect that gets moderately faster (1.5-3 Hz)
+        let pulseFrequency = 1.5 + (1.5 * intensity)
         let phase = timeRemaining * pulseFrequency * 2 * .pi
 
-        // Pulse amplitude increases
-        let pulseAmplitude = 0.03 + (0.07 * exponentialIntensity)
+        // Pulse amplitude increases subtly
+        let pulseAmplitude = 0.02 + (0.04 * exponentialIntensity)
         let pulse = pulseAmplitude * (0.5 + 0.5 * sin(phase))
 
         return baseScale + pulse
