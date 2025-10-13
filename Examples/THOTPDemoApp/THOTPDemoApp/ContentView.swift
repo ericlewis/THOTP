@@ -528,22 +528,18 @@ struct PasswordRowView: View {
             return .primary
         }
 
-        // Below 5 seconds, smoothly transition from dark to bright red
+        // Below 5 seconds, smoothly transition to bright red
         // Normalize 5s→0s to 0.0→1.0
         let normalized = 1.0 - (timeRemaining / 5.0)
 
-        // Use cubic curve for smooth ramp
-        let curve = normalized * normalized * normalized
-
-        // Hue: stay near red (0.0)
+        // Hue: stay at red (0.0)
         let hue = 0.0
 
-        // Saturation: gradually increase from low to high
-        let saturation = 0.5 + (curve * 0.4) // 50% → 90%
+        // Saturation: increase linearly for fast, smooth transition
+        let saturation = normalized * 0.85 // 0% → 85%
 
-        // Brightness: start dark, get brighter
-        // This is key for readability - we go from dark red to bright red
-        let brightness = 0.3 + (curve * 0.65) // 30% → 95%
+        // Brightness: keep high for readability
+        let brightness = 0.9
 
         return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
