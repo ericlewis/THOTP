@@ -37,9 +37,11 @@ public struct OTPCodeRow: View {
                             .monospacedDigit()
                             .foregroundStyle(isRedZone ? .red : .primary)
                             .opacity(flashOpacity)
+                            .scaleEffect(scaleEffect)
                             .shadow(color: isRedZone ? .red.opacity(0.8) : .clear, radius: isRedZone ? 12 : 0)
                             .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 24 : 0)
                             .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
+                            .animation(Animation.easeInOut(duration: 0.2), value: scaleEffect)
                             .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
 
                         Text("\(Int(timeRemaining))s")
@@ -113,6 +115,32 @@ public struct OTPCodeRow: View {
         let pulse = amplitude * (1.0 - cos(phase)) / 2.0
 
         return 1.0 - pulse
+    }
+
+    private var scaleEffect: CGFloat {
+        guard isTimerBased else { return 1.0 }
+
+        let p = min(max(progress, 0), 1)
+
+        // Start scaling when less than 25% time remains
+        guard p < 0.25 else { return 1.0 }
+
+        // Calculate intensity (0.0 = subtle, 1.0 = intense)
+        let intensity = 1.0 - (p / 0.25)
+
+        // Scale frequency (same as flash)
+        let frequency = 0.5 + (1.5 * intensity)
+
+        // Phase based on sub-second timing
+        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
+
+        // Scale amplitude increases with intensity (subtle: 2%, intense: 8%)
+        let amplitude = 0.02 + (0.06 * intensity)
+
+        // Calculate scale pulse (grows and shrinks)
+        let pulse = amplitude * (1.0 + sin(phase)) / 2.0
+
+        return 1.0 + pulse
     }
 
     private func updatePassword() {

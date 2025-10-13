@@ -190,6 +190,7 @@ struct PasswordRowView: View {
     private func rowContent(currentCode: String, timeRemaining: TimeInterval, progress: Double) -> some View {
         let color = progressColor(progress: progress, timeRemaining: timeRemaining)
         let flashOpacity = calculateFlashOpacity(progress: progress, timeRemaining: timeRemaining)
+        let scaleEffect = calculateScaleEffect(progress: progress, timeRemaining: timeRemaining)
         let isRedZone = progress < 0.25
 
         Gauge(value: progress) {
@@ -199,9 +200,11 @@ struct PasswordRowView: View {
                     .monospacedDigit()
                     .foregroundStyle(isRedZone ? .red : .primary)
                     .opacity(flashOpacity)
+                    .scaleEffect(scaleEffect)
                     .shadow(color: isRedZone ? .red.opacity(0.8) : .clear, radius: isRedZone ? 12 : 0)
                     .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 24 : 0)
                     .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
+                    .animation(Animation.easeInOut(duration: 0.2), value: scaleEffect)
                     .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
             } label: {
                 Text(password.issuer ?? "Unknown")
@@ -264,6 +267,32 @@ struct PasswordRowView: View {
         let pulse = amplitude * (1.0 - cos(phase)) / 2.0
 
         return 1.0 - pulse
+    }
+
+    private func calculateScaleEffect(progress: Double, timeRemaining: TimeInterval) -> CGFloat {
+        guard isTimerBased else { return 1.0 }
+
+        let p = min(max(progress, 0), 1)
+
+        // Start scaling when less than 25% time remains
+        guard p < 0.25 else { return 1.0 }
+
+        // Calculate intensity (0.0 = subtle, 1.0 = intense)
+        let intensity = 1.0 - (p / 0.25)
+
+        // Scale frequency (same as flash)
+        let frequency = 0.5 + (1.5 * intensity)
+
+        // Phase based on sub-second timing
+        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
+
+        // Scale amplitude increases with intensity (subtle: 2%, intense: 8%)
+        let amplitude = 0.02 + (0.06 * intensity)
+
+        // Calculate scale pulse (grows and shrinks)
+        let pulse = amplitude * (1.0 + sin(phase)) / 2.0
+
+        return 1.0 + pulse
     }
 }
 
