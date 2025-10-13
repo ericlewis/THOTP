@@ -1,7 +1,7 @@
 import Foundation
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
-public enum OTPError: Error, Sendable {
+public enum OTPError: Error, Sendable, BitwiseCopyable {
     case invalidDigits
     case invalidPeriod
     case invalidTime

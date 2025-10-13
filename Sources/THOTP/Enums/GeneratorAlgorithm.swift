@@ -4,7 +4,7 @@ import Foundation
 ///
 /// Most use a variation of the counter approach
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
-public enum GeneratorAlgorithm: Sendable {
+public enum GeneratorAlgorithm: Sendable, BitwiseCopyable {
     case counter(UInt64)
     case timer(period: TimeInterval)
 
@@ -22,7 +22,7 @@ public enum GeneratorAlgorithm: Sendable {
     }
 
     /// The counter value, depending on algorithm chosen
-    func value(for time: Date) throws(OTPError) -> UInt64 {
+    func value(for time: borrowing Date) throws(OTPError) -> UInt64 {
         switch self {
         case .counter(let counter):
             return counter

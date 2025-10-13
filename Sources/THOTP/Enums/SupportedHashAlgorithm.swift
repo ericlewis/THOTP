@@ -8,7 +8,7 @@ import CryptoKit
 /// - SHA256 (Recommended)
 /// - SHA512
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
-public enum SupportedHashAlgorithm: String, Sendable {
+public enum SupportedHashAlgorithm: String, Sendable, BitwiseCopyable {
     case sha1, sha256, sha512
 
     /// The number of bytes in the given hash function's digest.

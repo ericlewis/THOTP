@@ -3,7 +3,7 @@ import CryptoKit
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 public extension GeneratorProtocol {
-    func generate(with date: Date) throws(OTPError) -> String {
+    func generate(with date: borrowing Date) throws(OTPError) -> String {
         let counter = try generatorAlgorithm.value(for: date)
 
         var bigCounter = counter.bigEndian

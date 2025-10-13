@@ -42,5 +42,5 @@ public protocol GeneratorProtocol: Sendable {
 
     /// Creates a one-time password
     /// - Parameter date: Seed date to generate from
-    func generate(with date: Date) throws(OTPError) -> String
+    func generate(with date: borrowing Date) throws(OTPError) -> String
 }
