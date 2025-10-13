@@ -189,11 +189,14 @@ struct PasswordRowView: View {
     @ViewBuilder
     private func rowContent(currentCode: String, timeRemaining: TimeInterval, progress: Double) -> some View {
         let color = progressColor(progress: progress, timeRemaining: timeRemaining)
+        let flashOpacity = calculateFlashOpacity(progress: progress, timeRemaining: timeRemaining)
+
         Gauge(value: progress) {
             LabeledContent {
                 Text(currentCode)
                     .font(.title2.monospacedDigit().bold())
                     .foregroundStyle(.primary)
+                    .opacity(flashOpacity)
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
@@ -229,6 +232,32 @@ struct PasswordRowView: View {
     private func glowRadius(progress: Double) -> CGFloat {
         let p = min(max(progress, 0), 1)
         return 4 + 10 * (1 - p)
+    }
+
+    private func calculateFlashOpacity(progress: Double, timeRemaining: TimeInterval) -> Double {
+        guard isTimerBased else { return 1.0 }
+
+        let p = min(max(progress, 0), 1)
+
+        // Start flashing when less than 30% time remains
+        guard p < 0.3 else { return 1.0 }
+
+        // Calculate flash intensity (0.0 = subtle, 1.0 = intense)
+        let intensity = 1.0 - (p / 0.3)
+
+        // Flash frequency increases as time runs out (2-8 Hz)
+        let frequency = 2.0 + (6.0 * intensity)
+
+        // Phase based on sub-second timing
+        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
+
+        // Amplitude increases with intensity
+        let amplitude = 0.1 + (0.4 * intensity)
+
+        // Calculate opacity pulse (stays mostly visible, dips lower as intensity increases)
+        let pulse = amplitude * (1.0 - cos(phase)) / 2.0
+
+        return 1.0 - pulse
     }
 }
 

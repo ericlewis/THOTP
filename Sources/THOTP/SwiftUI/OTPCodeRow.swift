@@ -35,6 +35,7 @@ public struct OTPCodeRow: View {
                         Text(currentCode)
                             .font(.system(.title2, design: .monospaced))
                             .fontWeight(.medium)
+                            .opacity(flashOpacity)
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)
@@ -77,6 +78,32 @@ public struct OTPCodeRow: View {
         } else {
             return .red
         }
+    }
+
+    private var flashOpacity: Double {
+        guard isTimerBased else { return 1.0 }
+
+        let p = min(max(progress, 0), 1)
+
+        // Start flashing when less than 30% time remains
+        guard p < 0.3 else { return 1.0 }
+
+        // Calculate flash intensity (0.0 = subtle, 1.0 = intense)
+        let intensity = 1.0 - (p / 0.3)
+
+        // Flash frequency increases as time runs out (2-8 Hz)
+        let frequency = 2.0 + (6.0 * intensity)
+
+        // Phase based on sub-second timing
+        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
+
+        // Amplitude increases with intensity
+        let amplitude = 0.1 + (0.4 * intensity)
+
+        // Calculate opacity pulse (stays mostly visible, dips lower as intensity increases)
+        let pulse = amplitude * (1.0 - cos(phase)) / 2.0
+
+        return 1.0 - pulse
     }
 
     private func updatePassword() {
