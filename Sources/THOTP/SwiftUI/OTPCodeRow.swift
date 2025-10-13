@@ -35,7 +35,7 @@ public struct OTPCodeRow: View {
                         Text(currentCode)
                             .font(.system(.title2, design: .monospaced).weight(.medium))
                             .monospacedDigit()
-                            .foregroundStyle(isRedZone ? .red : .primary)
+                            .foregroundStyle(textColor)
                             .opacity(flashOpacity)
                             .scaleEffect(scaleEffect)
                             .shadow(color: glowColor.opacity(glowIntensity * 0.95), radius: 30 - (glowIntensity * 25))
@@ -82,10 +82,6 @@ public struct OTPCodeRow: View {
         } else {
             return .red
         }
-    }
-
-    private var isRedZone: Bool {
-        return progress < 0.2
     }
 
     private var flashOpacity: Double {
@@ -166,6 +162,20 @@ public struct OTPCodeRow: View {
 
         // Increase saturation as urgency increases
         let saturation = 0.7 + 0.3 * (1 - normalized)
+
+        return Color(hue: hue, saturation: saturation, brightness: 0.9)
+    }
+
+    private var textColor: Color {
+        let p = min(max(progress, 0), 1)
+
+        // Interpolate from primary to red based on progress
+        // At 100% progress → primary (green-ish via hue 0.33)
+        // At 0% progress → red (hue 0.0)
+        let hue = 0.33 * p
+
+        // Increase saturation as urgency increases
+        let saturation = 0.6 + 0.4 * (1 - p)
 
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }

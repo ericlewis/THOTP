@@ -193,14 +193,14 @@ struct PasswordRowView: View {
         let scaleEffect = calculateScaleEffect(progress: progress, timeRemaining: timeRemaining)
         let glowIntensity = calculateGlowIntensity(progress: progress)
         let glowColor = calculateGlowColor(progress: progress)
-        let isRedZone = progress < 0.2
+        let textColor = calculateTextColor(progress: progress)
 
         Gauge(value: progress) {
             LabeledContent {
                 Text(currentCode)
                     .font(.system(.title2, design: .monospaced).bold())
                     .monospacedDigit()
-                    .foregroundStyle(isRedZone ? .red : .primary)
+                    .foregroundStyle(textColor)
                     .opacity(flashOpacity)
                     .scaleEffect(scaleEffect)
                     .shadow(color: glowColor.opacity(glowIntensity * 0.95), radius: 30 - (glowIntensity * 25))
@@ -310,6 +310,20 @@ struct PasswordRowView: View {
 
         // Increase saturation as urgency increases
         let saturation = 0.7 + 0.3 * (1 - normalized)
+
+        return Color(hue: hue, saturation: saturation, brightness: 0.9)
+    }
+
+    private func calculateTextColor(progress: Double) -> Color {
+        let p = min(max(progress, 0), 1)
+
+        // Interpolate from primary to red based on progress
+        // At 100% progress → primary (green-ish via hue 0.33)
+        // At 0% progress → red (hue 0.0)
+        let hue = 0.33 * p
+
+        // Increase saturation as urgency increases
+        let saturation = 0.6 + 0.4 * (1 - p)
 
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
