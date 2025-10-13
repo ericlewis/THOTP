@@ -197,6 +197,7 @@ struct PasswordRowView: View {
                     .font(.title2.monospacedDigit().bold())
                     .foregroundStyle(.primary)
                     .opacity(flashOpacity)
+                    .contentTransition(.opacity)
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
@@ -239,22 +240,22 @@ struct PasswordRowView: View {
 
         let p = min(max(progress, 0), 1)
 
-        // Start flashing when less than 30% time remains
-        guard p < 0.3 else { return 1.0 }
+        // Start flashing when less than 20% time remains
+        guard p < 0.2 else { return 1.0 }
 
         // Calculate flash intensity (0.0 = subtle, 1.0 = intense)
-        let intensity = 1.0 - (p / 0.3)
+        let intensity = 1.0 - (p / 0.2)
 
-        // Flash frequency increases as time runs out (2-8 Hz)
-        let frequency = 2.0 + (6.0 * intensity)
+        // Flash frequency increases as time runs out (0.5-2 Hz, much slower)
+        let frequency = 0.5 + (1.5 * intensity)
 
         // Phase based on sub-second timing
         let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
 
-        // Amplitude increases with intensity
-        let amplitude = 0.1 + (0.4 * intensity)
+        // Amplitude increases with intensity (subtle: 5%, intense: 20%)
+        let amplitude = 0.05 + (0.15 * intensity)
 
-        // Calculate opacity pulse (stays mostly visible, dips lower as intensity increases)
+        // Calculate opacity pulse (stays mostly visible, dips slightly)
         let pulse = amplitude * (1.0 - cos(phase)) / 2.0
 
         return 1.0 - pulse
