@@ -169,13 +169,17 @@ public struct OTPCodeRow: View {
     private var textColor: Color {
         let p = min(max(progress, 0), 1)
 
-        // Interpolate from primary to red based on progress
-        // At 100% progress → primary (green-ish via hue 0.33)
+        // Keep text primary color above 40%, then interpolate to red below
+        guard p < 0.4 else { return .primary }
+
+        // Interpolate from yellow-green to red within 40% → 0% range
+        // At 40% progress → yellow-green (hue 0.2)
         // At 0% progress → red (hue 0.0)
-        let hue = 0.33 * p
+        let normalized = p / 0.4 // Maps 0.4→1.0, 0.0→0.0
+        let hue = 0.2 * normalized
 
         // Increase saturation as urgency increases
-        let saturation = 0.6 + 0.4 * (1 - p)
+        let saturation = 0.7 + 0.3 * (1 - normalized)
 
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
