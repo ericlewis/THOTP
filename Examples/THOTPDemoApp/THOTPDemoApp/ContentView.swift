@@ -281,11 +281,18 @@ struct PasswordRowView: View {
         // Use exponential curve for more dramatic interpolation as we approach 0
         let exponentialIntensity = intensity * intensity
 
-        // Scale grows dramatically in the final seconds
-        // At 10s: 1.0x, at 5s: ~1.025x, at 0s: 1.10x
-        let scale = 1.0 + (0.10 * exponentialIntensity)
+        // Base scale grows as we approach expiration
+        let baseScale = 1.0 + (0.05 * exponentialIntensity)
 
-        return scale
+        // Add pulsing effect that gets faster and more intense as time runs out
+        let pulseFrequency = 1.0 + (3.0 * exponentialIntensity) // 1-4 Hz
+        let phase = timeRemaining * pulseFrequency * 2 * .pi
+
+        // Pulse amplitude increases dramatically in final seconds
+        let pulseAmplitude = 0.02 + (0.08 * exponentialIntensity) // 2%-10%
+        let pulse = pulseAmplitude * (1.0 + sin(phase)) / 2.0
+
+        return baseScale + pulse
     }
 }
 
