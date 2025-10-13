@@ -191,7 +191,8 @@ struct PasswordRowView: View {
         let color = progressColor(progress: progress, timeRemaining: timeRemaining)
         let flashOpacity = calculateFlashOpacity(progress: progress, timeRemaining: timeRemaining)
         let scaleEffect = calculateScaleEffect(progress: progress, timeRemaining: timeRemaining)
-        let isRedZone = progress < 0.25
+        let glowIntensity = calculateGlowIntensity(progress: progress)
+        let isRedZone = progress < 0.2
 
         Gauge(value: progress) {
             LabeledContent {
@@ -201,11 +202,11 @@ struct PasswordRowView: View {
                     .foregroundStyle(isRedZone ? .red : .primary)
                     .opacity(flashOpacity)
                     .scaleEffect(scaleEffect)
-                    .shadow(color: isRedZone ? .red.opacity(0.8) : .clear, radius: isRedZone ? 12 : 0)
-                    .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 24 : 0)
-                    .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
-                    .animation(Animation.easeInOut(duration: 0.2), value: scaleEffect)
-                    .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
+                    .shadow(color: .red.opacity(glowIntensity * 0.8), radius: 8 + (glowIntensity * 8))
+                    .shadow(color: .red.opacity(glowIntensity * 0.5), radius: 16 + (glowIntensity * 16))
+                    .animation(Animation.easeInOut(duration: 0.15), value: flashOpacity)
+                    .animation(Animation.easeInOut(duration: 0.15), value: scaleEffect)
+                    .animation(Animation.easeInOut(duration: 0.2), value: glowIntensity)
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
@@ -248,22 +249,22 @@ struct PasswordRowView: View {
 
         let p = min(max(progress, 0), 1)
 
-        // Start flashing when less than 25% time remains
-        guard p < 0.25 else { return 1.0 }
+        // Start flashing when less than 20% time remains
+        guard p < 0.2 else { return 1.0 }
 
-        // Calculate flash intensity (0.0 = subtle, 1.0 = intense)
-        let intensity = 1.0 - (p / 0.25)
+        // Calculate intensity based on remaining progress (0.0 = 20% left, 1.0 = 0% left)
+        let intensity = 1.0 - (p / 0.2)
 
-        // Flash frequency increases as time runs out (0.5-2 Hz)
-        let frequency = 0.5 + (1.5 * intensity)
+        // Flash frequency increases dramatically (1-5 Hz)
+        let frequency = 1.0 + (4.0 * intensity)
 
         // Phase based on sub-second timing
         let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
 
-        // Amplitude increases with intensity (subtle: 12%, intense: 35%)
-        let amplitude = 0.12 + (0.23 * intensity)
+        // Amplitude increases with intensity (15%-45%)
+        let amplitude = 0.15 + (0.30 * intensity)
 
-        // Calculate opacity pulse (stays mostly visible, dips noticeably)
+        // Calculate opacity pulse
         let pulse = amplitude * (1.0 - cos(phase)) / 2.0
 
         return 1.0 - pulse
@@ -272,27 +273,42 @@ struct PasswordRowView: View {
     private func calculateScaleEffect(progress: Double, timeRemaining: TimeInterval) -> CGFloat {
         guard isTimerBased else { return 1.0 }
 
-        // Start scaling when less than 10 seconds remain
-        guard timeRemaining < 10 else { return 1.0 }
+        let p = min(max(progress, 0), 1)
 
-        // Calculate intensity based on how far into the final 10 seconds we are (0.0 = 10s left, 1.0 = 0s left)
-        let intensity = 1.0 - (timeRemaining / 10.0)
+        // Start scaling when less than 20% time remains
+        guard p < 0.2 else { return 1.0 }
 
-        // Use exponential curve for more dramatic interpolation as we approach 0
-        let exponentialIntensity = intensity * intensity
+        // Calculate intensity based on remaining progress (0.0 = 20% left, 1.0 = 0% left)
+        let intensity = 1.0 - (p / 0.2)
 
-        // Base scale grows as we approach expiration
-        let baseScale = 1.0 + (0.05 * exponentialIntensity)
+        // Use cubic curve for very dramatic interpolation
+        let exponentialIntensity = intensity * intensity * intensity
 
-        // Add pulsing effect that gets faster and more intense as time runs out
-        let pulseFrequency = 1.0 + (3.0 * exponentialIntensity) // 1-4 Hz
+        // Base scale grows dramatically as we approach expiration
+        let baseScale = 1.0 + (0.08 * exponentialIntensity)
+
+        // Pulsing effect that gets much faster and more intense
+        let pulseFrequency = 2.0 + (6.0 * intensity) // 2-8 Hz
         let phase = timeRemaining * pulseFrequency * 2 * .pi
 
-        // Pulse amplitude increases dramatically in final seconds
-        let pulseAmplitude = 0.02 + (0.08 * exponentialIntensity) // 2%-10%
+        // Pulse amplitude increases dramatically
+        let pulseAmplitude = 0.03 + (0.12 * exponentialIntensity) // 3%-15%
         let pulse = pulseAmplitude * (1.0 + sin(phase)) / 2.0
 
         return baseScale + pulse
+    }
+
+    private func calculateGlowIntensity(progress: Double) -> Double {
+        let p = min(max(progress, 0), 1)
+
+        // Glow starts at 20% and increases to max at 0%
+        guard p < 0.2 else { return 0.0 }
+
+        // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
+        let intensity = 1.0 - (p / 0.2)
+
+        // Use quadratic curve for smooth buildup
+        return intensity * intensity
     }
 }
 
