@@ -197,9 +197,10 @@ struct PasswordRowView: View {
                 Text(currentCode)
                     .font(.system(.title2, design: .monospaced).bold())
                     .monospacedDigit()
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(isRedZone ? .red : .primary)
                     .opacity(flashOpacity)
-                    .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 8 : 0)
+                    .shadow(color: isRedZone ? .red.opacity(0.8) : .clear, radius: isRedZone ? 12 : 0)
+                    .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 24 : 0)
                     .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
                     .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
             } label: {
