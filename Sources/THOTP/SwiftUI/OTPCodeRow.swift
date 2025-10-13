@@ -36,7 +36,9 @@ public struct OTPCodeRow: View {
                             .font(.system(.title2, design: .monospaced).weight(.medium))
                             .monospacedDigit()
                             .opacity(flashOpacity)
+                            .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 8 : 0)
                             .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
+                            .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
 
                         Text("\(Int(timeRemaining))s")
                             .font(.caption)
@@ -79,6 +81,10 @@ public struct OTPCodeRow: View {
         } else {
             return .red
         }
+    }
+
+    private var isRedZone: Bool {
+        return progress < 0.25
     }
 
     private var flashOpacity: Double {

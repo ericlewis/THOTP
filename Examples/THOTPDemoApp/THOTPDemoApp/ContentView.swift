@@ -190,6 +190,7 @@ struct PasswordRowView: View {
     private func rowContent(currentCode: String, timeRemaining: TimeInterval, progress: Double) -> some View {
         let color = progressColor(progress: progress, timeRemaining: timeRemaining)
         let flashOpacity = calculateFlashOpacity(progress: progress, timeRemaining: timeRemaining)
+        let isRedZone = progress < 0.25
 
         Gauge(value: progress) {
             LabeledContent {
@@ -198,7 +199,9 @@ struct PasswordRowView: View {
                     .monospacedDigit()
                     .foregroundStyle(.primary)
                     .opacity(flashOpacity)
+                    .shadow(color: isRedZone ? .red.opacity(0.4) : .clear, radius: isRedZone ? 8 : 0)
                     .animation(Animation.easeInOut(duration: 0.2), value: flashOpacity)
+                    .animation(Animation.easeInOut(duration: 0.3), value: isRedZone)
             } label: {
                 Text(password.issuer ?? "Unknown")
                     .font(.headline)
