@@ -14,7 +14,7 @@ public extension PasswordProtocol {
         return period - timeInPeriod
     }
 
-    /// Progress of the current TOTP password period (0.0 to 1.0)
+    /// Progress of the current TOTP password period (1.0 = full time remaining, 0.0 = expired)
     /// Returns nil for HOTP (counter-based) passwords
     var passwordProgress: Double? {
         guard case .timer(let period) = generator.generatorAlgorithm else {
@@ -23,6 +23,6 @@ public extension PasswordProtocol {
 
         let now = Date().timeIntervalSince1970
         let timeInPeriod = now.truncatingRemainder(dividingBy: period)
-        return timeInPeriod / period
+        return 1.0 - (timeInPeriod / period)
     }
 }

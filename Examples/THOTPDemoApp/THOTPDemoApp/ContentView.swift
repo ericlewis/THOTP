@@ -4,26 +4,100 @@ import Base32
 
 struct ContentView: View {
     @State private var passwords: [Password] = []
-
+    @State private var showingScanner = false
+    @State private var showingManualEntry = false
+    @State private var scannedCode: String?
+    @State private var newPassword: Password?
+    
     var body: some View {
         NavigationStack {
             List {
-                ForEach(passwords, id: \.name) { password in
-                    PasswordRowView(password: password)
+                ForEach(passwords, id: \.issuer) { password in
+                    Section {
+                        PasswordRowView(password: password)
+                    }
+                }
+                .onDelete(perform: deletePasswords)
+            }
+            .searchable(text: .constant(""))
+            .navigationTitle("THOTP Demo")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigation) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        
+                    } label: {
+                        Label("Filter", systemImage: "line.3.horizontal.decrease")
+                    }
+                }
+                ToolbarSpacer(.fixed, placement: .bottomBar)
+                DefaultToolbarItem(kind: .search, placement: .bottomBar)
+                ToolbarSpacer(.fixed, placement: .bottomBar)
+                ToolbarItem(placement: .bottomBar) {
+                    Menu {
+                        Button("Scan QR Code", systemImage: "qrcode.viewfinder") {
+                            showingScanner = true
+                        }
+                        Button("Enter Manually", systemImage: "rectangle.and.pencil.and.ellipsis") {
+                            showingManualEntry = true
+                        }
+                    } label: {
+                        Label("Add", systemImage: "plus")
+                    }
                 }
             }
-            .navigationTitle("THOTP Demo")
+            .listSectionSpacing(.compact)
         }
         .task {
             loadPasswords()
         }
+        .sheet(isPresented: $showingScanner) {
+            QRScannerView(scannedCode: $scannedCode)
+        }
+        .sheet(isPresented: $showingManualEntry) {
+            ManualEntryView(newPassword: $newPassword)
+        }
+        .onChange(of: scannedCode) { _, newValue in
+            if let code = newValue, let url = URL(string: code) {
+                handleScannedURL(url)
+                scannedCode = nil
+            }
+        }
+        .onChange(of: newPassword) { _, password in
+            if let password {
+                addPassword(password)
+                newPassword = nil
+            }
+        }
     }
-
+    
+    private func deletePasswords(at offsets: IndexSet) {
+        passwords.remove(atOffsets: offsets)
+    }
+    
+    private func handleScannedURL(_ url: URL) {
+        do {
+            let password = try Password(url: url)
+            addPassword(password)
+        } catch {
+            print("Failed to parse scanned URL: \(error)")
+        }
+    }
+    
+    private func addPassword(_ password: Password) {
+        if !passwords.contains(where: { $0.name == password.name && $0.issuer == password.issuer }) {
+            passwords.append(password)
+        }
+    }
+    
     private func loadPasswords() {
         guard let secretData = "JBSWY3DPEHPK3PXP".base32DecodedData else { return }
-
+        
         var examples: [Password] = []
-
+        
         // SHA1 - 6 digits (Google Authenticator default)
         if let generator = try? Generator(
             type: .timer(period: 30),
@@ -37,7 +111,7 @@ struct ContentView: View {
                 generator: generator
             ))
         }
-
+        
         // SHA256 - 6 digits
         if let generator = try? Generator(
             type: .timer(period: 30),
@@ -51,7 +125,7 @@ struct ContentView: View {
                 generator: generator
             ))
         }
-
+        
         // SHA512 - 8 digits
         if let generator = try? Generator(
             type: .timer(period: 30),
@@ -65,7 +139,7 @@ struct ContentView: View {
                 generator: generator
             ))
         }
-
+        
         // Short period (15 seconds)
         if let generator = try? Generator(
             type: .timer(period: 15),
@@ -79,7 +153,7 @@ struct ContentView: View {
                 generator: generator
             ))
         }
-
+        
         // Counter-based (HOTP)
         if let generator = try? Generator(
             type: .counter(0),
@@ -93,90 +167,68 @@ struct ContentView: View {
                 generator: generator
             ))
         }
-
+        
         passwords = examples
     }
 }
 
 struct PasswordRowView: View {
     let password: Password
-    @State private var currentCode: String = "------"
-    @State private var timeRemaining: TimeInterval = 0
-    @State private var progress: Double = 0
-
-    private let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(password.issuer ?? "Unknown")
-                        .font(.headline)
-                    Text(password.name)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-
-                Spacer()
-
-                if isTimerBased {
-                    VStack(alignment: .trailing, spacing: 4) {
-                        Text(currentCode)
-                            .font(.system(.title2, design: .monospaced))
-                            .fontWeight(.medium)
-
-                        Text("\(Int(timeRemaining))s")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                } else {
-                    Text(currentCode)
-                        .font(.system(.title2, design: .monospaced))
-                        .fontWeight(.medium)
-                }
-            }
-
-            if isTimerBased {
-                ProgressView(value: progress)
-                    .tint(progressColor)
-                    .animation(.linear(duration: 0.1), value: progress)
-            }
+        TimelineView(.animation) { _ in
+            rowContent(
+                currentCode: password.currentPassword ?? "------",
+                timeRemaining: password.timeRemaining ?? 0,
+                progress: password.passwordProgress ?? 0
+            )
         }
         .padding(.vertical, 8)
-        .onReceive(timer) { _ in
-            updatePassword()
-        }
-        .onAppear {
-            updatePassword()
-        }
     }
-
+    
+    @ViewBuilder
+    private func rowContent(currentCode: String, timeRemaining: TimeInterval, progress: Double) -> some View {
+        let color = progressColor(progress: progress, timeRemaining: timeRemaining)
+        Gauge(value: progress) {
+            LabeledContent {
+                Text(currentCode)
+                    .font(.title2.monospacedDigit().bold())
+                    .foregroundStyle(.primary)
+            } label: {
+                Text(password.issuer ?? "Unknown")
+                    .font(.headline)
+                Text(password.name)
+            }
+        }
+        .tint(color)
+    }
+    
     private var isTimerBased: Bool {
         if case .timer = password.generator.generatorAlgorithm {
             return true
         }
         return false
     }
-
-    private var progressColor: Color {
-        if progress > 0.5 {
-            return .green
-        } else if progress > 0.25 {
-            return .orange
-        } else {
-            return .red
-        }
+    
+    private func progressColor(progress: Double, timeRemaining: TimeInterval) -> Color {
+        let p = min(max(progress, 0), 1)
+        let hue = 0.33 * p
+        let saturation = 0.6 + 0.4 * (1 - p)
+        let baseBrightness: Double = 0.9
+        let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0)) * 2 * .pi
+        let pulse = 0.05 * (1 - p) * sin(phase)
+        let brightness = min(max(baseBrightness + pulse, 0.8), 1.0)
+        return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
-
-    private func updatePassword() {
-        if let code = password.currentPassword {
-            currentCode = code
-        }
-
-        if isTimerBased {
-            timeRemaining = password.timeRemaining ?? 0
-            progress = password.passwordProgress ?? 0
-        }
+    
+    private func glowOpacity(progress: Double) -> Double {
+        let p = min(max(progress, 0), 1)
+        return 0.15 + 0.25 * (1 - p)
+    }
+    
+    private func glowRadius(progress: Double) -> CGFloat {
+        let p = min(max(progress, 0), 1)
+        return 4 + 10 * (1 - p)
     }
 }
 
