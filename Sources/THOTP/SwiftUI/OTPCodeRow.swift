@@ -99,14 +99,14 @@ public struct OTPCodeRow: View {
         // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
         let intensity = 1.0 - (p / 0.2)
 
-        // Flash frequency increases dramatically (1-5 Hz)
-        let frequency = 1.0 + (4.0 * intensity)
+        // Flash frequency increases (1-3 Hz)
+        let frequency = 1.0 + (2.0 * intensity)
 
         // Phase based on timeRemaining for continuous frequency changes
         let phase = timeRemaining * frequency * 2 * .pi
 
-        // Amplitude increases with intensity (15%-45%)
-        let amplitude = 0.15 + (0.30 * intensity)
+        // Amplitude increases with intensity (15%-30%)
+        let amplitude = 0.15 + (0.15 * intensity)
 
         // Calculate opacity pulse using sine wave
         let pulse = amplitude * (0.5 - 0.5 * sin(phase))
@@ -125,18 +125,18 @@ public struct OTPCodeRow: View {
         // Calculate intensity (0.0 = 20% left, 1.0 = 0% left)
         let intensity = 1.0 - (p / 0.2)
 
-        // Use cubic curve for very dramatic base scale growth
+        // Use cubic curve for dramatic base scale growth
         let exponentialIntensity = intensity * intensity * intensity
 
-        // Base scale grows dramatically
-        let baseScale = 1.0 + (0.08 * exponentialIntensity)
+        // Base scale grows moderately
+        let baseScale = 1.0 + (0.05 * exponentialIntensity)
 
-        // Pulsing effect that gets much faster (2-8 Hz)
-        let pulseFrequency = 2.0 + (6.0 * intensity)
+        // Pulsing effect that gets faster (2-5 Hz)
+        let pulseFrequency = 2.0 + (3.0 * intensity)
         let phase = timeRemaining * pulseFrequency * 2 * .pi
 
-        // Pulse amplitude increases dramatically
-        let pulseAmplitude = 0.03 + (0.12 * exponentialIntensity)
+        // Pulse amplitude increases
+        let pulseAmplitude = 0.03 + (0.07 * exponentialIntensity)
         let pulse = pulseAmplitude * (0.5 + 0.5 * sin(phase))
 
         return baseScale + pulse
