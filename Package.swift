@@ -12,6 +12,9 @@ let package = Package(
         .executable(
             name: "THOTPExample",
             targets: ["THOTPExample"]),
+        .executable(
+            name: "THOTPSwiftUIExample",
+            targets: ["THOTPSwiftUIExample"]),
     ],
     dependencies: [
         .package(url: "https://github.com/ericlewis/URL-QueryItem.git", .upToNextMajor(from: "1.0.0")),
@@ -28,6 +31,10 @@ let package = Package(
             name: "THOTPExample",
             dependencies: ["THOTP", "Base32"],
             path: "Examples/THOTPExample"),
+        .executableTarget(
+            name: "THOTPSwiftUIExample",
+            dependencies: ["THOTP", "Base32"],
+            path: "Examples/THOTPSwiftUIExample"),
         .testTarget(
             name: "THOTPTests",
             dependencies: ["THOTP", "Base32"]),
