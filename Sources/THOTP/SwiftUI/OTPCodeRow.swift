@@ -178,8 +178,10 @@ public struct OTPCodeRow: View {
         let normalized = p / 0.3 // Maps 0.3→1.0, 0.0→0.0
         let hue = 0.15 * normalized
 
-        // Keep saturation moderate to avoid overly saturated colors
-        let saturation = 0.5 + 0.3 * (1 - normalized)
+        // Start with very low saturation (nearly grayscale) and gradually increase
+        // This creates a smooth transition from primary appearance
+        let intensityCurve = (1 - normalized) * (1 - normalized) // Quadratic for smooth ramp
+        let saturation = intensityCurve * 0.8
 
         // Keep brightness high to prevent dark colors
         return Color(hue: hue, saturation: saturation, brightness: 0.95)
