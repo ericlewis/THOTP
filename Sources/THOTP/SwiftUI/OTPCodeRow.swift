@@ -1,7 +1,11 @@
 import SwiftUI
-import THOTP
 
-struct PasswordRowView: View {
+/// A SwiftUI view that displays an OTP password with animated countdown for TOTP.
+///
+/// This view shows the issuer name, account name, current OTP code, and for timer-based
+/// passwords, displays an animated countdown and progress bar.
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
+public struct OTPCodeRow: View {
     let password: Password
     @State private var currentCode: String = "------"
     @State private var timeRemaining: TimeInterval = 0
@@ -9,7 +13,11 @@ struct PasswordRowView: View {
 
     private let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
-    var body: some View {
+    public init(password: Password) {
+        self.password = password
+    }
+
+    public var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
@@ -81,4 +89,52 @@ struct PasswordRowView: View {
             progress = password.passwordProgress ?? 0
         }
     }
+}
+
+#Preview("TOTP - SHA256") {
+    List {
+        OTPCodeRow(password: createSHA256Password())
+    }
+}
+
+#Preview("Multiple Algorithms") {
+    List {
+        ForEach(createMultiplePasswords(), id: \.name) { password in
+            OTPCodeRow(password: password)
+        }
+    }
+}
+
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
+private func createSHA256Password() -> Password {
+    guard let secretData = "JBSWY3DPEHPK3PXP".base32DecodedData,
+          let generator = try? Generator(type: .timer(period: 30), hash: .sha256, secret: secretData, digits: 6) else {
+        fatalError("Failed to create demo password")
+    }
+    return Password(name: "user@example.com", issuer: "GitHub", generator: generator)
+}
+
+@available(iOS 18.0, macOS 15.0, watchOS 11.0, tvOS 18.0, *)
+private func createMultiplePasswords() -> [Password] {
+    guard let secretData = "JBSWY3DPEHPK3PXP".base32DecodedData else { return [] }
+
+    var passwords: [Password] = []
+
+    if let gen = try? Generator(type: .timer(period: 30), hash: .sha1, secret: secretData, digits: 6) {
+        passwords.append(Password(name: "user@example.com", issuer: "Google", generator: gen))
+    }
+
+    if let gen = try? Generator(type: .timer(period: 30), hash: .sha256, secret: secretData, digits: 6) {
+        passwords.append(Password(name: "user@github.com", issuer: "GitHub", generator: gen))
+    }
+
+    if let gen = try? Generator(type: .timer(period: 30), hash: .sha512, secret: secretData, digits: 8) {
+        passwords.append(Password(name: "admin@example.com", issuer: "AWS", generator: gen))
+    }
+
+    if let gen = try? Generator(type: .timer(period: 15), hash: .sha256, secret: secretData, digits: 6) {
+        passwords.append(Password(name: "user@fast.com", issuer: "FastCorp (15s)", generator: gen))
+    }
+
+    return passwords
 }

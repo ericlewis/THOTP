@@ -1,6 +1,7 @@
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 
 import PackageDescription
+import AppleProductTypes
 
 let package = Package(
     name: "THOTP",
@@ -9,12 +10,6 @@ let package = Package(
         .library(
             name: "THOTP",
             targets: ["THOTP"]),
-        .executable(
-            name: "THOTPExample",
-            targets: ["THOTPExample"]),
-        .executable(
-            name: "THOTPSwiftUIExample",
-            targets: ["THOTPSwiftUIExample"]),
     ],
     dependencies: [
         .package(url: "https://github.com/ericlewis/URL-QueryItem.git", .upToNextMajor(from: "1.0.0")),
@@ -27,14 +22,6 @@ let package = Package(
             swiftSettings: [
                 .enableUpcomingFeature("StrictConcurrency")
             ]),
-        .executableTarget(
-            name: "THOTPExample",
-            dependencies: ["THOTP", "Base32"],
-            path: "Examples/THOTPExample"),
-        .executableTarget(
-            name: "THOTPSwiftUIExample",
-            dependencies: ["THOTP", "Base32"],
-            path: "Examples/THOTPSwiftUIExample"),
         .testTarget(
             name: "THOTPTests",
             dependencies: ["THOTP", "Base32"]),
