@@ -6,17 +6,17 @@ import Base32
 class UrgencySettings {
     // Glow settings
     var glowStartProgress: Double = 0.5
-
+    
     // Text color settings
     var textColorStartProgress: Double = 0.3
-
+    
     // Flash settings
     var flashStartProgress: Double = 0.2
     var flashMinFrequency: Double = 1.0
     var flashMaxFrequency: Double = 2.0
     var flashMinAmplitude: Double = 0.10
     var flashMaxAmplitude: Double = 0.20
-
+    
     // Scale settings
     var scaleStartProgress: Double = 0.2
     var scaleMinFrequency: Double = 1.5
@@ -24,7 +24,7 @@ class UrgencySettings {
     var scaleMaxBase: Double = 0.03
     var scaleMinPulse: Double = 0.02
     var scaleMaxPulse: Double = 0.06
-
+    
     // Glow settings
     var glowMinRadius: Double = 5.0
     var glowMaxRadius: Double = 30.0
@@ -33,7 +33,7 @@ class UrgencySettings {
 struct SettingsView: View {
     @Bindable var settings: UrgencySettings
     @Environment(\.dismiss) private var dismiss
-
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -42,84 +42,84 @@ struct SettingsView: View {
                         Text("Start at: \(Int(settings.glowStartProgress * 100))%")
                         Slider(value: $settings.glowStartProgress, in: 0.1...1.0)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Min Radius: \(Int(settings.glowMinRadius))pt")
                         Slider(value: $settings.glowMinRadius, in: 0...20)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Radius: \(Int(settings.glowMaxRadius))pt")
                         Slider(value: $settings.glowMaxRadius, in: 10...50)
                     }
                 }
-
+                
                 Section("Text Color") {
                     VStack(alignment: .leading) {
                         Text("Start at: \(Int(settings.textColorStartProgress * 100))%")
                         Slider(value: $settings.textColorStartProgress, in: 0.1...1.0)
                     }
                 }
-
+                
                 Section("Flash Effect") {
                     VStack(alignment: .leading) {
                         Text("Start at: \(Int(settings.flashStartProgress * 100))%")
                         Slider(value: $settings.flashStartProgress, in: 0.05...0.5)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Min Freq: \(String(format: "%.1f Hz", settings.flashMinFrequency))")
                         Slider(value: $settings.flashMinFrequency, in: 0.5...3.0, step: 0.1)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Freq: \(String(format: "%.1f Hz", settings.flashMaxFrequency))")
                         Slider(value: $settings.flashMaxFrequency, in: 1.0...5.0, step: 0.1)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Min Amplitude: \(Int(settings.flashMinAmplitude * 100))%")
                         Slider(value: $settings.flashMinAmplitude, in: 0.0...0.3)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Amplitude: \(Int(settings.flashMaxAmplitude * 100))%")
                         Slider(value: $settings.flashMaxAmplitude, in: 0.1...0.5)
                     }
                 }
-
+                
                 Section("Scale Effect") {
                     VStack(alignment: .leading) {
                         Text("Start at: \(Int(settings.scaleStartProgress * 100))%")
                         Slider(value: $settings.scaleStartProgress, in: 0.05...0.5)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Min Pulse Freq: \(String(format: "%.1f Hz", settings.scaleMinFrequency))")
                         Slider(value: $settings.scaleMinFrequency, in: 0.5...3.0, step: 0.1)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Pulse Freq: \(String(format: "%.1f Hz", settings.scaleMaxFrequency))")
                         Slider(value: $settings.scaleMaxFrequency, in: 1.0...5.0, step: 0.1)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Base Scale: \(String(format: "%.2fx", 1.0 + settings.scaleMaxBase))")
                         Slider(value: $settings.scaleMaxBase, in: 0.0...0.1, step: 0.01)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Min Pulse: \(Int(settings.scaleMinPulse * 100))%")
                         Slider(value: $settings.scaleMinPulse, in: 0.0...0.05, step: 0.01)
                     }
-
+                    
                     VStack(alignment: .leading) {
                         Text("Max Pulse: \(Int(settings.scaleMaxPulse * 100))%")
                         Slider(value: $settings.scaleMaxPulse, in: 0.02...0.15, step: 0.01)
                     }
                 }
-
+                
                 Section {
                     Button("Reset to Defaults") {
                         settings.glowStartProgress = 0.5
@@ -180,6 +180,13 @@ struct ContentView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        
+                    } label: {
+                        Label("Filter", systemImage: "line.3.horizontal.decrease")
+                    }
+                }
+                ToolbarItem(placement: .bottomBar) {
                     Button {
                         showingSettings = true
                     } label: {
@@ -332,7 +339,7 @@ struct ContentView: View {
 struct PasswordRowView: View {
     let password: Password
     let settings: UrgencySettings
-
+    
     var body: some View {
         TimelineView(.animation) { _ in
             rowContent(
@@ -343,7 +350,7 @@ struct PasswordRowView: View {
         }
         .padding(.vertical, 8)
     }
-
+    
     @ViewBuilder
     private func rowContent(currentCode: String, timeRemaining: TimeInterval, progress: Double) -> some View {
         let color = progressColor(progress: progress, timeRemaining: timeRemaining)
@@ -352,7 +359,7 @@ struct PasswordRowView: View {
         let glowIntensity = calculateGlowIntensity(progress: progress)
         let glowColor = calculateGlowColor(progress: progress)
         let textColor = calculateTextColor(progress: progress)
-
+        
         Gauge(value: progress) {
             LabeledContent {
                 Text(currentCode)
@@ -392,109 +399,109 @@ struct PasswordRowView: View {
     
     private func calculateFlashOpacity(progress: Double, timeRemaining: TimeInterval) -> Double {
         guard isTimerBased else { return 1.0 }
-
+        
         let p = min(max(progress, 0), 1)
-
+        
         // Start flashing based on settings
         guard p < settings.flashStartProgress else { return 1.0 }
-
+        
         // Calculate intensity based on threshold
         let intensity = 1.0 - (p / settings.flashStartProgress)
-
+        
         // Flash frequency increases based on settings
         let frequency = settings.flashMinFrequency + ((settings.flashMaxFrequency - settings.flashMinFrequency) * intensity)
-
+        
         // Phase based on timeRemaining for continuous frequency changes
         let phase = timeRemaining * frequency * 2 * .pi
-
+        
         // Amplitude increases with intensity based on settings
         let amplitude = settings.flashMinAmplitude + ((settings.flashMaxAmplitude - settings.flashMinAmplitude) * intensity)
-
+        
         // Calculate opacity pulse using sine wave
         let pulse = amplitude * (0.5 - 0.5 * sin(phase))
-
+        
         return 1.0 - pulse
     }
-
+    
     private func calculateScaleEffect(progress: Double, timeRemaining: TimeInterval) -> CGFloat {
         guard isTimerBased else { return 1.0 }
-
+        
         let p = min(max(progress, 0), 1)
-
+        
         // Start scaling based on settings
         guard p < settings.scaleStartProgress else { return 1.0 }
-
+        
         // Calculate intensity based on threshold
         let intensity = 1.0 - (p / settings.scaleStartProgress)
-
+        
         // Use cubic curve for base scale growth
         let exponentialIntensity = intensity * intensity * intensity
-
+        
         // Base scale grows based on settings
         let baseScale = 1.0 + (settings.scaleMaxBase * exponentialIntensity)
-
+        
         // Pulsing effect that gets faster based on settings
         let pulseFrequency = settings.scaleMinFrequency + ((settings.scaleMaxFrequency - settings.scaleMinFrequency) * intensity)
         let phase = timeRemaining * pulseFrequency * 2 * .pi
-
+        
         // Pulse amplitude increases based on settings
         let pulseAmplitude = settings.scaleMinPulse + ((settings.scaleMaxPulse - settings.scaleMinPulse) * exponentialIntensity)
         let pulse = pulseAmplitude * (0.5 + 0.5 * sin(phase))
-
+        
         return baseScale + pulse
     }
-
+    
     private func calculateGlowIntensity(progress: Double) -> Double {
         let p = min(max(progress, 0), 1)
-
+        
         // Glow starts based on settings
         guard p < settings.glowStartProgress else { return 0.0 }
-
+        
         // Calculate intensity based on threshold
         let intensity = 1.0 - (p / settings.glowStartProgress)
-
+        
         // Use quadratic curve for smooth buildup
         return intensity * intensity
     }
-
+    
     private func calculateGlowColor(progress: Double) -> Color {
         let p = min(max(progress, 0), 1)
-
+        
         // Glow is visible based on settings, interpolate within that range
         let normalized = p / settings.glowStartProgress // Maps threshold→1.0, 0.0→0.0
         let hue = 0.33 * normalized
-
+        
         // Increase saturation as urgency increases
         let saturation = 0.7 + 0.3 * (1 - normalized)
-
+        
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
-
+    
     private func calculateTextColor(progress: Double) -> Color {
         let p = min(max(progress, 0), 1)
-
+        
         // Keep fully readable above threshold
         if p > settings.textColorStartProgress {
             return .primary
         }
-
+        
         // Below threshold, smoothly transition from dark to bright red
         // Normalize within visible range
         let normalized = 1 - (p / settings.textColorStartProgress)
-
+        
         // Use cubic curve for smooth ramp
         let curve = normalized * normalized * normalized
-
+        
         // Hue: stay near red (0.0)
         let hue = 0.0
-
+        
         // Saturation: gradually increase from low to high
         let saturation = 0.5 + (curve * 0.4) // 50% → 90%
-
+        
         // Brightness: start dark, get brighter
         // This is key for readability - we go from dark red to bright red
         let brightness = 0.3 + (curve * 0.65) // 30% → 95%
-
+        
         return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
 }
