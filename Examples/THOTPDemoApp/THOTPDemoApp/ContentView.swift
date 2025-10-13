@@ -20,7 +20,7 @@ struct ContentView: View {
                 .onDelete(perform: deletePasswords)
             }
             .searchable(text: .constant(""))
-            .navigationTitle("THOTP Demo")
+            .navigationTitle("Ohhhhh Code")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
