@@ -272,27 +272,20 @@ struct PasswordRowView: View {
     private func calculateScaleEffect(progress: Double, timeRemaining: TimeInterval) -> CGFloat {
         guard isTimerBased else { return 1.0 }
 
-        let p = min(max(progress, 0), 1)
+        // Start scaling when less than 10 seconds remain
+        guard timeRemaining < 10 else { return 1.0 }
 
-        // Start scaling earlier (when less than 40% time remains) for gradual buildup
-        guard p < 0.4 else { return 1.0 }
+        // Calculate intensity based on how far into the final 10 seconds we are (0.0 = 10s left, 1.0 = 0s left)
+        let intensity = 1.0 - (timeRemaining / 10.0)
 
-        // Calculate intensity based on how much total time has elapsed (0.0 = subtle, 1.0 = intense)
-        let intensity = 1.0 - (p / 0.4)
+        // Use exponential curve for more dramatic interpolation as we approach 0
+        let exponentialIntensity = intensity * intensity
 
-        // Get the elapsed time within the current period (0.0 = start of period, 1.0 = end of period)
-        guard case .timer(let period) = password.generator.generatorAlgorithm else { return 1.0 }
-        let elapsedInPeriod = 1.0 - (timeRemaining / period)
+        // Scale grows dramatically in the final seconds
+        // At 10s: 1.0x, at 5s: ~1.025x, at 0s: 1.10x
+        let scale = 1.0 + (0.10 * exponentialIntensity)
 
-        // Base scale grows as overall progress decreases (tied to total progress)
-        let baseScale = 1.0 + (0.03 * intensity * intensity)
-
-        // Breathing effect tied to position in current period
-        // Scale grows as we progress through each period, creating breathing tied to countdown
-        let breathingAmplitude = 0.02 + (0.04 * intensity * intensity)
-        let breathing = breathingAmplitude * elapsedInPeriod
-
-        return baseScale + breathing
+        return scale
     }
 }
 
