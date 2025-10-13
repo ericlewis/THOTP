@@ -221,17 +221,14 @@ public struct OTPCodeRow: View {
     }
 
     private var textColor: Color {
-        let p = min(max(progress, 0), 1)
-        let threshold = 0.3
-
-        // Keep fully readable above threshold
-        if p > threshold {
+        // Keep fully readable when more than 5 seconds remain
+        if timeRemaining > 5.0 {
             return .primary
         }
 
-        // Below threshold, smoothly transition from dark to bright red
-        // Normalize within visible range
-        let normalized = 1 - (p / threshold)
+        // Below 5 seconds, smoothly transition from dark to bright red
+        // Normalize 5s→0s to 0.0→1.0
+        let normalized = 1.0 - (timeRemaining / 5.0)
 
         // Use cubic curve for smooth ramp
         let curve = normalized * normalized * normalized

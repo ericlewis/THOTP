@@ -370,7 +370,7 @@ struct PasswordRowView: View {
         let scaleEffect = calculateScaleEffect(progress: progress, timeRemaining: timeRemaining)
         let glowIntensity = calculateGlowIntensity(progress: progress)
         let glowColor = calculateGlowColor(progress: progress)
-        let textColor = calculateTextColor(progress: progress)
+        let textColor = calculateTextColor(progress: progress, timeRemaining: timeRemaining)
         
         LabeledContent {
             Text(currentCode)
@@ -522,31 +522,29 @@ struct PasswordRowView: View {
         return Color(hue: hue, saturation: saturation, brightness: 0.9)
     }
     
-    private func calculateTextColor(progress: Double) -> Color {
-        let p = min(max(progress, 0), 1)
-        
-        // Keep fully readable above threshold
-        if p > settings.textColorStartProgress {
+    private func calculateTextColor(progress: Double, timeRemaining: TimeInterval) -> Color {
+        // Keep fully readable when more than 5 seconds remain
+        if timeRemaining > 5.0 {
             return .primary
         }
-        
-        // Below threshold, smoothly transition from dark to bright red
-        // Normalize within visible range
-        let normalized = 1 - (p / settings.textColorStartProgress)
-        
+
+        // Below 5 seconds, smoothly transition from dark to bright red
+        // Normalize 5s→0s to 0.0→1.0
+        let normalized = 1.0 - (timeRemaining / 5.0)
+
         // Use cubic curve for smooth ramp
         let curve = normalized * normalized * normalized
-        
+
         // Hue: stay near red (0.0)
         let hue = 0.0
-        
+
         // Saturation: gradually increase from low to high
         let saturation = 0.5 + (curve * 0.4) // 50% → 90%
-        
+
         // Brightness: start dark, get brighter
         // This is key for readability - we go from dark red to bright red
         let brightness = 0.3 + (curve * 0.65) // 30% → 95%
-        
+
         return Color(hue: hue, saturation: saturation, brightness: brightness)
     }
 }
