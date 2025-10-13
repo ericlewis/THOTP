@@ -8,7 +8,7 @@ class UrgencySettings {
     var glowStartProgress: Double = 0.5
 
     // Text color settings
-    var textColorStartProgress: Double = 0.4
+    var textColorStartProgress: Double = 0.3
 
     // Flash settings
     var flashStartProgress: Double = 0.2
@@ -123,7 +123,7 @@ struct SettingsView: View {
                 Section {
                     Button("Reset to Defaults") {
                         settings.glowStartProgress = 0.5
-                        settings.textColorStartProgress = 0.4
+                        settings.textColorStartProgress = 0.3
                         settings.flashStartProgress = 0.2
                         settings.flashMinFrequency = 1.0
                         settings.flashMaxFrequency = 2.0
@@ -478,12 +478,13 @@ struct PasswordRowView: View {
 
         // Interpolate from yellow-green to red within threshold → 0% range
         let normalized = p / settings.textColorStartProgress
-        let hue = 0.2 * normalized
+        let hue = 0.15 * normalized
 
-        // Increase saturation as urgency increases
-        let saturation = 0.7 + 0.3 * (1 - normalized)
+        // Keep saturation moderate to avoid overly saturated colors
+        let saturation = 0.5 + 0.3 * (1 - normalized)
 
-        return Color(hue: hue, saturation: saturation, brightness: 0.9)
+        // Keep brightness high to prevent dark colors
+        return Color(hue: hue, saturation: saturation, brightness: 0.95)
     }
 }
 

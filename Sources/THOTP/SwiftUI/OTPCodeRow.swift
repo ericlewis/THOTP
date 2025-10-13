@@ -169,19 +169,20 @@ public struct OTPCodeRow: View {
     private var textColor: Color {
         let p = min(max(progress, 0), 1)
 
-        // Keep text primary color above 40%, then interpolate to red below
-        guard p < 0.4 else { return .primary }
+        // Keep text primary color above 30%, then interpolate to red below
+        guard p < 0.3 else { return .primary }
 
-        // Interpolate from yellow-green to red within 40% → 0% range
-        // At 40% progress → yellow-green (hue 0.2)
+        // Interpolate from yellow-green to red within 30% → 0% range
+        // At 30% progress → yellow-green (hue 0.15)
         // At 0% progress → red (hue 0.0)
-        let normalized = p / 0.4 // Maps 0.4→1.0, 0.0→0.0
-        let hue = 0.2 * normalized
+        let normalized = p / 0.3 // Maps 0.3→1.0, 0.0→0.0
+        let hue = 0.15 * normalized
 
-        // Increase saturation as urgency increases
-        let saturation = 0.7 + 0.3 * (1 - normalized)
+        // Keep saturation moderate to avoid overly saturated colors
+        let saturation = 0.5 + 0.3 * (1 - normalized)
 
-        return Color(hue: hue, saturation: saturation, brightness: 0.9)
+        // Keep brightness high to prevent dark colors
+        return Color(hue: hue, saturation: saturation, brightness: 0.95)
     }
 
     private func updatePassword() {
