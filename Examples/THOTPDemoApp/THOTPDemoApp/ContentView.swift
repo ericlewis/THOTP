@@ -277,23 +277,26 @@ struct PasswordRowView: View {
         // Start scaling earlier (when less than 40% time remains) for gradual buildup
         guard p < 0.4 else { return 1.0 }
 
-        // Calculate intensity (0.0 = subtle, 1.0 = intense)
+        // Calculate intensity based on progress (0.0 = subtle, 1.0 = intense)
         let intensity = 1.0 - (p / 0.4)
 
-        // Scale frequency increases as time runs out (starts slower, gets faster)
+        // Base scale grows as progress decreases (directly tied to progress)
+        // Uses exponential curve for more dramatic buildup
+        let baseScale = 1.0 + (0.05 * intensity * intensity)
+
+        // Pulse frequency increases as time runs out (starts slower, gets faster)
         let frequency = 0.3 + (1.7 * intensity)
 
         // Phase based on sub-second timing
         let phase = (timeRemaining.truncatingRemainder(dividingBy: 1.0 / frequency)) * frequency * 2 * .pi
 
-        // Scale amplitude increases with intensity (very subtle at start, more dramatic at end)
-        // Uses exponential curve for more dramatic buildup
-        let amplitude = 0.01 + (0.09 * intensity * intensity)
+        // Pulse amplitude increases with intensity (oscillation on top of base scale)
+        let pulseAmplitude = 0.01 + (0.04 * intensity * intensity)
 
-        // Calculate scale pulse (grows and shrinks)
-        let pulse = amplitude * (1.0 + sin(phase)) / 2.0
+        // Calculate pulse (oscillates around base scale)
+        let pulse = pulseAmplitude * sin(phase)
 
-        return 1.0 + pulse
+        return baseScale + pulse
     }
 }
 
