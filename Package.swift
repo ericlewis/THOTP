@@ -1,14 +1,13 @@
-// swift-tools-version:5.1
+// swift-tools-version:6.0
 
 import PackageDescription
 
 let package = Package(
     name: "THOTP",
-    platforms: [.iOS(.v13), .tvOS(.v13), .macOS(.v10_15), .watchOS(.v6)],
+    platforms: [.iOS(.v16), .tvOS(.v16), .macOS(.v13), .watchOS(.v9)],
     products: [
         .library(
             name: "THOTP",
-            type: .static,
             targets: ["THOTP"]),
     ],
     dependencies: [
@@ -18,7 +17,10 @@ let package = Package(
     targets: [
         .target(
             name: "THOTP",
-            dependencies: ["URL-QueryItem", "Base32"]),
+            dependencies: ["URL-QueryItem", "Base32"],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]),
         .testTarget(
             name: "THOTPTests",
             dependencies: ["THOTP", "Base32"]),

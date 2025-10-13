@@ -1,6 +1,6 @@
 import Foundation
 
-@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
+@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
 public extension PasswordProtocol {
     var currentPassword: String? {
         try? generator.generate(with: Date())

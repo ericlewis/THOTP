@@ -73,12 +73,14 @@ final class AllTests: XCTestCase {
     }
     
     func test_Counter_InvalidDigits() {
-        let password1 = Password(name: "t",
-                                 issuer: nil,
-                                 image: nil,
-                                 generator: try! Generator(type: .counter(1), hash: .sha1, secret: Data("".utf8), digits: 1))
-        
-        XCTAssertEqual(password1.currentPassword, nil)
+        do {
+            let _ = try Generator(type: .counter(1), hash: .sha1, secret: Data("".utf8), digits: 1)
+            XCTFail("Should have thrown invalidDigits error")
+        } catch OTPError.invalidDigits {
+            XCTAssertTrue(true)
+        } catch {
+            XCTFail("Wrong error type thrown: \(error)")
+        }
     }
     
     func test_Time() {

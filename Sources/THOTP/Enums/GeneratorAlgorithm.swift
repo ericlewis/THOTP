@@ -3,22 +3,26 @@ import Foundation
 /// The available generator algorithms used for password generation
 ///
 /// Most use a variation of the counter approach
-@available(iOS 13.0, OSX 10.15, watchOS 6.0, tvOS 13.0, *)
-public enum GeneratorAlgorithm {
-    case counter(UInt64), timer(period: TimeInterval)
-    
+@available(iOS 16.0, macOS 13.0, watchOS 9.0, tvOS 16.0, *)
+public enum GeneratorAlgorithm: Sendable {
+    case counter(UInt64)
+    case timer(period: TimeInterval)
+
+    /// Default period for TOTP tokens (30 seconds)
+    public static let defaultPeriod: TimeInterval = 30
+
     /// The string value of the given algorithm, used for parsing URLs typically
-    var stringValue: String {
+    public var stringValue: String {
         switch self {
-        case .counter(_):
+        case .counter:
             return "hotp"
-        case .timer(_):
+        case .timer:
             return "totp"
         }
     }
-    
+
     /// The counter value, depending on algorithm chosen
-    func value(for time: Date) throws -> UInt64 {
+    func value(for time: Date) throws(OTPError) -> UInt64 {
         switch self {
         case .counter(let counter):
             return counter
