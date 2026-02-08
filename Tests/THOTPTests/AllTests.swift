@@ -73,12 +73,7 @@ final class AllTests: XCTestCase {
     }
     
     func test_Counter_InvalidDigits() {
-        let password1 = Password(name: "t",
-                                 issuer: nil,
-                                 image: nil,
-                                 generator: try! Generator(type: .counter(1), hash: .sha1, secret: Data("".utf8), digits: 1))
-        
-        XCTAssertEqual(password1.currentPassword, nil)
+        XCTAssertThrowsError(try Generator(type: .counter(1), hash: .sha1, secret: Data("".utf8), digits: 1))
     }
     
     func test_Time() {

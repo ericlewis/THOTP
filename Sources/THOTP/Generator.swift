@@ -16,7 +16,8 @@ public struct Generator: GeneratorProtocol {
     
     public init(type: GeneratorAlgorithm, hash: SupportedHashAlgorithm, secret: Data, digits: Int) throws {
         try Self.validateGeneratorAlgorithm(type)
-        
+        try Self.validateDigits(digits)
+
         self.generatorAlgorithm = type
         self.secret = secret
         self.digits = digits
